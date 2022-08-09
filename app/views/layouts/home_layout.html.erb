@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>App</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <!-- Warning !! ensure that "stylesheet_pack_tag" is used, line below -->
+  <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+
+<body>
+
+
+<nav class="navbar navbar-dark bg-dark fixed-top">
+  <div class="container-fluid">
+
+    <div style="text-align: center">
+      <a class="navbar-brand" href="#">Logo</a>
+    </div>
+
+    <ul class="navbar-nav ms-auto " style="display: inline-block">
+      <li class="nav-item active px-3" style="display: inline-block">
+        <a class="nav-link" href="#">Coins </a>
+      </li>
+      <li class="nav-item px-3" style="display: inline-block">
+        <a class="nav-link" href="#">Claim</a>
+      </li>
+      <li class="nav-item px-3" style="display: inline-block">
+        <a class="nav-link" href="#">Languages</a>
+      </li>
+    </ul>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"></h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <img src="/test/user-default.jpeg" class="d-block w-25" alt="...">
+        <div class="py-2" style="display:block" >Username:</div>
+        <div class="py-2" style="display:block" >Email:</div>
+        <div class="py-2" style="display:block" >Coins:</div>
+        <%= link_to "Cash in Now", url="#", class: "btn btn-warning float-right ", style: "display:block" %>
+        <%= link_to "Contact Us", url="#", class:"link-secondary text-decoration-none py-3", style: "display:block"%>
+        <%= link_to "My Profile", url="#", class:"link-secondary text-decoration-none py-3", style: "display:block"%>
+        <%= link_to "Log Out", destroy_user_session_path, :method => :delete, class:"link-secondary text-decoration-none py-3", style: "display:block" %>
+      </div>
+    </div>
+
+
+    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"></h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        insert something here
+      </div>
+    </div>
+  </div>
+</nav>
+
+<%= yield %>
+
+<nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
+
+  <div class="collapse navbar-collapse justify-content-center align-items-center" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">
+
+      <li class="nav-item px-4">
+        <a class="nav-link" href="#">Share</a>
+      </li>
+      <li class="nav-item px-4">
+        <a class="nav-link" href="#">Invite</a>
+      </li>
+      <li class="nav-item px-4">
+        <a class="nav-link" href="#">Lottery</a>
+      </li>
+      <li class="nav-item px-4">
+        <a class="nav-link" href="#">Shop</a>
+      </li>
+      <li class="nav-item px-4">
+        <a class="nav-link" href="#">Me</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+</body>
+
+</html>

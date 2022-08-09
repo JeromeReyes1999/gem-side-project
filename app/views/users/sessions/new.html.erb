@@ -1,4 +1,4 @@
-<section class="vh-100" style="background-color: #548acc;">
+<section class="vh-100">
 
   <div class="container py-5 h-100">
 
@@ -6,17 +6,26 @@
 
 
       <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-        <h1 class="text-center">Sign Up</h1>
+        <ul class="nav nav-pills nav-justified mb-3" id="session-nav" role="tablist">
+          <li class="nav-item" role="presentation">
+            <%= link_to "Login", new_session_path(resource_name), class: "nav-link  active text-white", style: "background-color:blue" %>
+          </li>
+          <li class="nav-item" role="presentation">
+            <%= link_to "Register", new_user_registration_path, class: "nav-link text-dark", style: "background-color:white" %>
+          </li>
+        </ul>
         <div class="card shadow-2-strong" style="border-radius: 1rem;">
+
           <div class="card-body p-5">
 
             <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-              <%= notice %>
-              <%= alert %>
+              <p class="text-danger"><%= notice %></p>
+              <p class="text-danger"><%= alert %></p>
               <div class="form-outline mb-4">
                 <%= f.label :email, class: "form-label" %>
-                <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-control-lg" %>
+                <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-control-lg"  %>
               </div>
+
 
               <div class="form-outline mb-4">
                 <%= f.label :password, class: "form-label" %>
@@ -26,8 +35,7 @@
               <!-- Checkbox -->
               <div class="d-flex justify-content-start mb-4">
                 <% if devise_mapping.rememberable? %>
-                    <%= f.check_box :remember_me %>
-                    <%= f.label :remember_me %>
+                  <%= f.check_box :remember_me %><%= f.label :remember_me, style: "padding-left: 5px;" %>
                 <% end %>
               </div>
               <%= f.submit "Log in", class: "btn btn-primary btn-lg btn-block" %>

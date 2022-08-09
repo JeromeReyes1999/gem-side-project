@@ -1,0 +1,56 @@
+<section class="vh-100">
+
+  <div class="container py-5 h-100">
+
+    <div class="row d-flex justify-content-center align-items-center h-100">
+
+
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <ul class="nav nav-pills nav-justified mb-3" id="session-nav" role="tablist">
+          <li class="nav-item" role="presentation">
+            <%= link_to "Login", new_session_path(resource_name), class: "nav-link active text-dark", style: "background-color:white" %>
+          </li>
+          <li class="nav-item" role="presentation">
+            <%= link_to "Register", new_user_registration_path, class: "nav-link text-white", style: "background-color:blue" %>
+          </li>
+        </ul>
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+
+          <div class="card-body p-5">
+            <%= form_for(resource, as: resource_name, url: user_registration_path) do |f| %>
+              <p class="text-danger"><%= notice %></p>
+              <p class="text-danger"><%= alert %></p>
+              <%= render "devise/shared/error_messages", resource: resource %>
+
+              <div class="form-outline mb-4">
+                <%= f.label :email, class: "form-label"  %><br />
+                <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-control-lg" %>
+              </div>
+
+              <div class="form-outline mb-4">
+                <%= f.label :password, class: "form-label"  %>
+                <% if @minimum_password_length %>
+                  <em>(<%= @minimum_password_length %> characters minimum)</em>
+                <% end %><br />
+                <%= f.password_field :password, autocomplete: "new-password", class: "form-control form-control-lg" %>
+              </div>
+
+              <div class="form-outline mb-4">
+                <%= f.label :password_confirmation, class: "form-label"  %><br />
+                <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control form-control-lg" %>
+              </div>
+
+              <div class="actions">
+                <%= f.submit "Sign up", class: "btn btn-primary btn-lg btn-block" %>
+              </div>
+            <% end %>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<%#= render "devise/shared/links" %>
