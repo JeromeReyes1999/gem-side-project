@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     root :to => 'home#index'
     namespace :users do
       resource :detail, only: :show
+      resources :addresses, except: :show
     end
   end
 

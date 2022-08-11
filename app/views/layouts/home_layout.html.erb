@@ -51,10 +51,9 @@
     <%= link_to "Cash in Now", url="#", class: "btn btn-warning float-right ", style: "display:block" %>
     <%= link_to "Contact Us", url="#", class:"link-secondary text-decoration-none py-3", style: "display:block"%>
     <%= link_to "My Profile", url="#", class:"link-secondary text-decoration-none py-3", style: "display:block"%>
-    <%= link_to "Log Out", destroy_user_session_path, :method => :delete, class:"link-secondary text-decoration-none py-3", style: "display:block" %>
+    <%= link_to "Log Out", destroy_user_session_path, method: :delete, class:"link-secondary text-decoration-none py-3", style: "display:block" %>
   </div>
 </div>
-
 
 <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
   <div class="offcanvas-header">

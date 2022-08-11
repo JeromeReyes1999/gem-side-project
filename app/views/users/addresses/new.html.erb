@@ -1,0 +1,12 @@
+<!--Page-->
+<div class="container" style="margin-top: 100px; height: 150vh">
+  <div class=" w-25" >
+      <%= link_to "Back", users_addresses_path, class: 'btn btn-primary form-control'%>
+  </div>
+  <%= form_for @address, url: users_addresses_path(@address), method: :post do |f| %>
+    <%= render partial: 'form', locals: {f: f, address: @address} %>
+    <%= f.check_box :is_default %>
+    <%= f.label :is_default, 'Default' %>
+    <%= f.submit "Create", class: 'border btn btn-primary form-control' %>
+  <% end %>
+</div>

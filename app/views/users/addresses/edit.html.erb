@@ -1,0 +1,17 @@
+<div class="container" style="height: 100vh; overflow: scroll;">
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
+
+  <%= link_to "Back", users_addresses_path, class: 'btn btn-primary form-control w-50'%>
+
+  <%= form_for @address, url: users_address_path(@address), method: :patch do |f| %>
+    <%= render partial: 'form', locals: {f: f, address: @address} %>
+    <% if @address.is_default %>
+      <%= f.check_box :is_default, onclick:"return false;", checked:true%>
+    <% else %>
+      <%= f.check_box :is_default %>
+    <% end %>
+    <%= f.label :is_default, 'Default' %>
+    <%= f.submit "Update", class: 'border btn btn-primary form-control' %>
+  <% end %>
+</div>

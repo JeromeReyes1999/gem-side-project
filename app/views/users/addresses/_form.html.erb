@@ -1,0 +1,50 @@
+<% if @address.errors.any? %>
+  <% @address.errors.full_messages.each do |message| %>
+    <li class="text-danger"><%= message%></li>
+  <% end %>
+<% end %>
+
+<div class="field">
+  <%= f.label :name %>
+  <%= f.text_field :name, class: 'form-control' %>
+</div>
+
+<div class="field">
+  <%= f.label :phone_number %>
+  <%= f.text_field :phone_number, class: 'form-control' %>
+</div>
+
+<div class="field">
+  <%= f.label :street_address %>
+  <%= f.text_field :street_address, class: 'form-control' %>
+</div>
+
+<div class="form-group">
+  <br>
+  <%= f.select(:genre, Address.genres.keys.map {|key| [key.humanize, key]}, {:prompt => 'Genre'}, class: 'form-control')%>
+</div>
+
+<div class="field">
+  <%= f.label :region_id %>
+  <%= f.collection_select :region_id, Region.order(:region_name),:id,:region_name, {:prompt => 'Regions'}, include_blank: true, class: 'form-control' %>
+</div>
+
+<div class="field">
+  <%= f.label :province_id %>
+  <%= f.collection_select :province_id, Province.order(:name),:id,:name, {:prompt => 'Province'}, include_blank: true, class: 'form-control' %>
+</div>
+
+<div class="field">
+  <%= f.label :city_id %>
+  <%= f.collection_select :city_id, City.order(:name),:id,:name, {:prompt => 'City'}, include_blank: true, class: 'form-control' %>
+</div>
+
+<div class="field">
+  <%= f.label :barangay_id %>
+  <%= f.collection_select :barangay_id, Barangay.where("id <= ?", 100 ).order(:name),:id,:name, {:prompt => 'Barangay'}, include_blank: true, class: 'form-control' %>
+</div>
+
+<div class="field">
+  <%= f.label :remark %>
+  <%= f.text_area :remark, class: 'form-control' %>
+</div>
