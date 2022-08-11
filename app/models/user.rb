@@ -9,6 +9,9 @@ class User < ApplicationRecord
 
   has_many :addresses
 
+  has_many :children, class_name: "User", foreign_key: "parent_id"
+  belongs_to :parent, class_name: "User", optional: true
+
   def admin?
     role == 'admin'
   end

@@ -6,13 +6,14 @@ Rails.application.routes.draw do
     namespace :users do
       resource :detail, only: :show
       resources :addresses, except: :show
+      get 'invite-people', to: 'invite_people#invite_page'
     end
   end
 
   constraints(AdminDomainConstraint.new) do
     namespace :admin, path: '' do
       devise_for :users, controllers: { sessions: 'admin/sessions'}
-      root :to => 'dashboard#index'
+      root to: 'dashboard#index'
     end
   end
 end

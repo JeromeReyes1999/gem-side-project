@@ -20,6 +20,14 @@
             <%= form_for(resource, as: resource_name, url: user_registration_path) do |f| %>
               <p class="text-danger"><%= notice %></p>
               <p class="text-danger"><%= alert %></p>
+
+              <% if cookies[:promoter] %>
+                <div class="form-outline mb-4">
+                  <%= f.label :promoter %>
+                  <%= f.email_field :parent, class: "form-control form-control-lg mb-3", autofocus: true, autocomplete: "email", value: cookies[:promoter], readonly: true %>
+                </div>
+              <% end %>
+
               <%= render "devise/shared/error_messages", resource: resource %>
 
               <div class="form-outline mb-4">
