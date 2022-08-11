@@ -1,40 +1,65 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+<div class="container" style="height: 100vh; margin-top: 100px">
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+  <%= form_for(resource, as: resource_name, url: user_registration_path, html: { method: :put }) do |f| %>
+    <img src="" alt='avatar' id="preview" style="width:15%; display:none" >
+    <%= image_tag current_user.image.url, alt: 'avatar', style: "width:15%", class:'original' if current_user.image?%>
+    <%= image_tag '/test/user-default.jpeg', alt: 'avatar', style: "width:15%", class:'original' unless current_user.image?%>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+    <div class="field">
+      <%= f.label :image %>
+      <%= f.file_field :image, class: 'form-control', onchange:"update_image_preview(this)" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :email %><br/>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control', disabled: true %>
+    </div>
+
+    <div class="field">
+      <%= f.label :username, 'Username' %><br/>
+      <%= f.text_field :username, autofocus: true, autocomplete: "username", class: 'form-control' %>
+    </div>
+
+    <div class="field">
+      <%= f.label :phone, 'Phone Number' %><br/>
+      <%= f.text_field :phone, autofocus: true, autocomplete: "phone", class: 'form-control'%>
+    </div>
+
+    <div class="field">
+      <%= f.label :current_password %> <i>(We need your current password to confirm your changes)</i><br/>
+      <%= f.password_field :current_password, autocomplete: "current-password", class: 'form-control' %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br/>
+      <%= f.password_field :password, autocomplete: "new-password", class: 'form-control' %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password_confirmation %><br/>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control' %>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col">
+        <%= f.submit "Update", class: 'border btn btn-primary form-control' %>
+      </div>
+      <div class="col">
+        <%= link_to "Back", :back, class: 'btn btn-primary form-control' %>
+      </div>
+    </div>
   <% end %>
-
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
+</div>
+<script>
+    function update_image_preview(input){
+        document.getElementById('preview').style.display = "inline";
+        document.getElementById('preview').src = window.URL.createObjectURL(input.files[0]);
+        var elements = document.getElementsByClassName('original');
+        while(elements.length > 0){
+            elements[0].parentNode.removeChild(elements[0]);
+        }
+    }
+</script>
 
 
-<%= link_to "Back", :back %>

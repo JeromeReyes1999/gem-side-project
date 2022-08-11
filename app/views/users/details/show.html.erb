@@ -1,0 +1,33 @@
+<div class="container" style="margin-top: 100px">
+  <div class="card">
+    <div class="card-body">
+
+      <div class="d-flex justify-content-md-center" >
+
+      </div>
+      <div class="mb-3" style="margin: 20px">
+        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Username: <%= current_user.username %></label>
+      </div>
+      <div class="mb-3" style="margin: 20px">
+        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Email: <%= current_user.email %></label>
+      </div>
+      <div class="mb-3" style="margin: 20px">
+        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Coins: </label>
+      </div>
+
+      <div class="mb-3">
+        <a href="#" class="btn btn-primary form-control">Cash in Now</a>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <%= link_to "Edit Profile", edit_user_registration_path, class: 'btn btn-primary form-control'%>
+        </div>
+        <div class="col">
+          <%= link_to "Address", url="#", class: 'btn btn-primary form-control'%>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

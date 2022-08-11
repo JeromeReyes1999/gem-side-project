@@ -12,8 +12,6 @@
 </head>
 
 <body>
-
-
 <nav class="navbar navbar-dark bg-dark fixed-top">
   <div class="container-fluid">
 
@@ -36,37 +34,37 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
-
-    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"></h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </div>
-      <div class="offcanvas-body">
-        <img src="/test/user-default.jpeg" class="d-block w-25" alt="...">
-        <div class="py-2" style="display:block" >Username:</div>
-        <div class="py-2" style="display:block" >Email:</div>
-        <div class="py-2" style="display:block" >Coins:</div>
-        <%= link_to "Cash in Now", url="#", class: "btn btn-warning float-right ", style: "display:block" %>
-        <%= link_to "Contact Us", url="#", class:"link-secondary text-decoration-none py-3", style: "display:block"%>
-        <%= link_to "My Profile", url="#", class:"link-secondary text-decoration-none py-3", style: "display:block"%>
-        <%= link_to "Log Out", destroy_user_session_path, :method => :delete, class:"link-secondary text-decoration-none py-3", style: "display:block" %>
-      </div>
-    </div>
-
-
-    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"></h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </div>
-      <div class="offcanvas-body">
-        insert something here
-      </div>
-    </div>
   </div>
 </nav>
 
+<div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"></h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <%= image_tag "#{request.base_url}/#{current_user&.image&.url}", class:"w-50" if current_user&.image? %>
+    <%= image_tag src="/test/user-default.jpeg", class:"d-block w-25" unless current_user&.image? %>
+    <div class="py-2" style="display:block" >Username:</div>
+    <div class="py-2" style="display:block" >Email: <%= current_user.email %></div>
+    <div class="py-2" style="display:block" >Coins:</div>
+    <%= link_to "Cash in Now", url="#", class: "btn btn-warning float-right ", style: "display:block" %>
+    <%= link_to "Contact Us", url="#", class:"link-secondary text-decoration-none py-3", style: "display:block"%>
+    <%= link_to "My Profile", url="#", class:"link-secondary text-decoration-none py-3", style: "display:block"%>
+    <%= link_to "Log Out", destroy_user_session_path, :method => :delete, class:"link-secondary text-decoration-none py-3", style: "display:block" %>
+  </div>
+</div>
+
+
+<div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"></h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    insert something here
+  </div>
+</div>
 <%= yield %>
 
 <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
@@ -87,7 +85,7 @@
         <a class="nav-link" href="#">Shop</a>
       </li>
       <li class="nav-item px-4">
-        <a class="nav-link" href="#">Me</a>
+        <%= link_to "Me", users_detail_path, class:"nav-link" %>
       </li>
     </ul>
   </div>
