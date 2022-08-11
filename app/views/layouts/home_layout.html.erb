@@ -16,7 +16,7 @@
   <div class="container-fluid">
 
     <div style="text-align: center">
-      <a class="navbar-brand" href="#">Logo</a>
+      <%= link_to "MyGacha", root_path, class:"navbar-brand" %>
     </div>
 
     <ul class="navbar-nav ms-auto " style="display: inline-block">
@@ -43,15 +43,19 @@
     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
-    <%= image_tag "#{request.base_url}/#{current_user&.image&.url}", class:"w-50" if current_user&.image? %>
-    <%= image_tag src="/test/user-default.jpeg", class:"d-block w-25" unless current_user&.image? %>
-    <div class="py-2" style="display:block" >Username:</div>
-    <div class="py-2" style="display:block" >Email: <%= current_user.email %></div>
-    <div class="py-2" style="display:block" >Coins:</div>
-    <%= link_to "Cash in Now", url="#", class: "btn btn-warning float-right ", style: "display:block" %>
-    <%= link_to "Contact Us", url="#", class:"link-secondary text-decoration-none py-3", style: "display:block"%>
-    <%= link_to "My Profile", url="#", class:"link-secondary text-decoration-none py-3", style: "display:block"%>
-    <%= link_to "Log Out", destroy_user_session_path, method: :delete, class:"link-secondary text-decoration-none py-3", style: "display:block" %>
+    <% if current_user%>
+      <%= image_tag "#{request.base_url}/#{current_user.image.url}", class:"w-50" if current_user&.image? %>
+      <%= image_tag src="/test/user-default.jpeg", class:"d-block w-25" unless current_user&.image? %>
+      <div class="py-2" style="display:block" >Username:</div>
+      <div class="py-2" style="display:block" >Email: <%= current_user.email %></div>
+      <div class="py-2" style="display:block" >Coins:</div>
+      <%= link_to "Cash in Now", url="#", class: "btn btn-warning float-right ", style: "display:block" %>
+      <%= link_to "Contact Us", url="#", class:"link-secondary text-decoration-none py-3", style: "display:block"%>
+      <%= link_to "My Profile", url="#", class:"link-secondary text-decoration-none py-3", style: "display:block"%>
+      <%= link_to "Log Out", destroy_user_session_path, method: :delete, class:"link-secondary text-decoration-none py-3", style: "display:block" %>
+    <%else%>
+      <%= link_to "Contact Us", url="#", class:"link-secondary text-decoration-none py-3", style: "display:block"%>
+    <%end%>
   </div>
 </div>
 
@@ -75,7 +79,7 @@
         <a class="nav-link" href="#">Share</a>
       </li>
       <li class="nav-item px-4">
-        <a class="nav-link" href="#">Invite</a>
+        <%= link_to "Invite", users_invite_people_path, class:"nav-link" %>
       </li>
       <li class="nav-item px-4">
         <a class="nav-link" href="#">Lottery</a>
