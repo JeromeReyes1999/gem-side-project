@@ -10,7 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_09_113125) do
+ActiveRecord::Schema.define(version: 2022_08_11_032848) do
+
+  create_table "barangays", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.bigint "city_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["city_id"], name: "index_barangays_on_city_id"
+  end
+
+  create_table "cities", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.bigint "province_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["province_id"], name: "index_cities_on_province_id"
+  end
+
+  create_table "provinces", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.bigint "region_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["region_id"], name: "index_provinces_on_region_id"
+  end
+
+  create_table "regions", charset: "utf8mb4", force: :cascade do |t|
+    t.string "code"
+    t.string "name"
+    t.string "region_name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "email", default: "", null: false
