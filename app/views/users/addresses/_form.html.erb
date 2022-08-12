@@ -1,6 +1,6 @@
 <% if @address.errors.any? %>
   <% @address.errors.full_messages.each do |message| %>
-    <li class="text-danger"><%= message%></li>
+    <li class="text-danger"><%= message %></li>
   <% end %>
 <% end %>
 
@@ -21,30 +21,83 @@
 
 <div class="form-group">
   <br>
-  <%= f.select(:genre, Address.genres.keys.map {|key| [key.humanize, key]}, {:prompt => 'Genre'}, class: 'form-control')%>
+  <%= f.select(:genre, Address.genres.keys.map { |key| [key.humanize, key] }, { :prompt => 'Genre' }, class: 'form-control') %>
 </div>
 
 <div class="field">
   <%= f.label :region_id %>
-  <%= f.collection_select :region_id, Region.order(:region_name),:id,:region_name, {:prompt => 'Regions'}, include_blank: true, class: 'form-control' %>
+  <%= f.collection_select :region_id, Region.order(:region_name), :id, :region_name, { :prompt => 'select_region' }, include_blank: true, class: 'form-control' %>
 </div>
 
 <div class="field">
   <%= f.label :province_id %>
-  <%= f.collection_select :province_id, Province.order(:name),:id,:name, {:prompt => 'Province'}, include_blank: true, class: 'form-control' %>
+  <%= f.collection_select :province_id, [], :id,:name ,{ prompt: 'select province' }, include_blank: true, class: 'form-control' %>
 </div>
 
 <div class="field">
   <%= f.label :city_id %>
-  <%= f.collection_select :city_id, City.order(:name),:id,:name, {:prompt => 'City'}, include_blank: true, class: 'form-control' %>
+  <%= f.collection_select :city_id, [], :id,:name ,{ prompt: 'select city' }, include_blank: true, class: 'form-control' %>
 </div>
 
 <div class="field">
   <%= f.label :barangay_id %>
-  <%= f.collection_select :barangay_id, Barangay.where("id <= ?", 100 ).order(:name),:id,:name, {:prompt => 'Barangay'}, include_blank: true, class: 'form-control' %>
+  <%= f.collection_select :barangay_id, [], :id,:name ,{ prompt: 'select barangay' }, include_blank: true, class: 'form-control' %>
 </div>
 
 <div class="field">
   <%= f.label :remark %>
   <%= f.text_area :remark, class: 'form-control' %>
 </div>
+
+<script>
+    $(document).ready(function () {
+        function change_options(id, url, to_change){
+            if (id) {
+                $.ajax({
+                    dataType: "json",
+                    cache: false,
+                    url: url,
+                    error: function(XMLHttpRequest, errorTextStatus, error) {
+                        alert("Failed to submit : " + errorTextStatus + " ;" + error);
+                    },
+                    success: function (data) {
+                        $(to_change).children('option').remove();
+                        var row = "<option value=\"" + "" + "\">" + "select "+ Object.keys(data)[0] + "</option>";
+                        $(row).appendTo(to_change);
+                        console.log();
+                        $.each(data[Object.keys(data)[0]], function(k,v) {
+                            row = "<option value=\"" + v.id + "\">" + v.name + "</option>";
+                            $(row).appendTo(to_change);
+                        });
+                    }
+                })
+            } else {
+                $(to_change).children('option').remove();
+                var row = "<option value=\"" + "" + "\">" + "select province" + "</option>";
+                $(row).appendTo(to_change);
+            }
+        }
+
+
+        $('select[id="address_region_id"]').on('change', function () {
+            var id = $(this).val();
+            var url = '/users/get_provinces_by_region/' + id;
+            var to_change = $("select[id='address_province_id']");
+            change_options(id, url, to_change);
+        });
+
+        $('select[id="address_province_id"]').on('change', function () {
+            var id = $(this).val();
+            var url = '/users/get_cities_by_province/' + id;
+            var to_change = $("select[id='address_city_id']");
+            change_options(id, url, to_change);
+        });
+
+        $('select[id="address_city_id"]').on('change', function () {
+            var id = $(this).val();
+            var url = '/users/get_barangays_by_city/' + id;
+            var to_change = $("select[id='address_barangay_id']");
+            change_options(id, url, to_change);
+        });
+    });
+</script>

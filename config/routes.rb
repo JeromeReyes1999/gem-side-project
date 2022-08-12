@@ -7,6 +7,12 @@ Rails.application.routes.draw do
       resource :detail, only: :show
       resources :addresses, except: :show
       get 'invite-people', to: 'invite_people#invite_page'
+
+      # dependent select
+      get 'get_provinces_by_region/:id', to: 'addresses#get_provinces_by_region'
+      get 'get_cities_by_province/:id', to: 'addresses#get_cities_by_province'
+      get 'get_barangays_by_city/:id', to: 'addresses#get_barangays_by_city'
+
     end
   end
 

@@ -38,7 +38,23 @@ class Users::AddressesController  < ApplicationController
     end
   end
 
+  def get_provinces_by_region
+    @provinces = Region.find_by_id(params[:id]).provinces
+    render json: { province: @provinces }
+  end
+
+  def get_cities_by_province
+    @cities = Province.find_by_id(params[:id]).cities
+    render json: { city: @cities }
+  end
+
+  def get_barangays_by_city
+    @barangays = City.find_by_id(params[:id]).barangays
+    render json: { barangay: @barangays }
+  end
+
   private
+
   def address_params
     params.require(:address).permit( :genre, :is_default, :name, :street_address, :phone_number, :region_id, :province_id, :city_id, :barangay_id, :remark)
   end
