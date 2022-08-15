@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       devise_for :users, controllers: { sessions: 'admin/sessions'}
       resources :client_list, only: :index
       root to: 'dashboard#index'
+      resources :items, except: :show
     end
   end
 end

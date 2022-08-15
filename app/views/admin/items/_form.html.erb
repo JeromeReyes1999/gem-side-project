@@ -1,0 +1,41 @@
+<% if @item.errors.any? %>
+  <% @item.errors.full_messages.each do |message| %>
+    <li class="text-danger"><%= message %></li>
+  <% end %>
+<% end %>
+
+<div class="field">
+  <%= f.label :image %>
+  <%= f.file_field :image, class: 'form-control', onchange:"update_image_preview(this)" %>
+</div>
+
+<div class="field">
+  <%= f.label :name %>
+  <%= f.text_field :name, class: 'form-control' %>
+</div>
+
+<div class="field">
+  <%= f.label :quantity %>
+  <%= f.number_field  :quantity , class: 'form-control' %>
+</div>
+
+<div class="field">
+  <%= f.label :minimum_bets %>
+  <%= f.number_field  :minimum_bets , class: 'form-control' %>
+</div>
+
+<div class="field">
+  <%= f.label :online_at %>
+  <%= f.date_field  :online_at , class: 'form-control' %>
+</div>
+
+<div class="field">
+  <%= f.label :offline_at %>
+  <%= f.date_field  :offline_at , class: 'form-control' %>
+</div>
+
+
+<div class="field">
+  <%= f.label :start_at%>
+  <%= f.date_field  :start_at , class: 'form-control' %>
+</div>
