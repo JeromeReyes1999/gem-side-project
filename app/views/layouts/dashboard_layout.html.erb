@@ -39,26 +39,24 @@
 
 <div class="container-fluid">
   <div class="row flex-nowrap ">
-    <div class="col-auto col-md-2.5 col-xl-2 px-sm-2 px-0 bg-dark">
-      <div class="d-flex flex-column align-items-center align-items-sm-start px-5 pt-2 text-white min-vh-100">
+    <div class="col-auto bg-dark" style="width:300px">
+      <div class="d-flex flex-column align-items-center align-items-sm-start  pt-2 text-white min-vh-100">
         <ul class="nav nav-pills flex-column mb-sm-auto align-items-center align-items-sm-start" id="menu">
-          <li class="nav-item">
+          <li class="nav-item ">
             <a href="#" class="nav-link align-middle px-0 text-light">
               <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home Page</span>
             </a>
-            <hr>
+            <span class="glyphicon glyphicon-triangle-bottom"></span>
           </li>
-
           <li>
             <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle text-light">
               <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline"></span>Management</a>
             <ul class="collapse nav flex-column ms-1 border-light" id="submenu1" data-bs-parent="#menu">
               <li class="w-100">
-                <a href="#" class="nav-link bg-light px-5"> <span class="d-none d-sm-inline">Item</span> 1</a>
+                <%= link_to "Client List", admin_client_list_index_path, class:"nav-link  text-decoration-none", style: "display:block" %>
               </li>
-              <br>
               <li>
-                <a href="#" class="nav-link bg-light px-5"> <span class="d-none d-sm-inline">Item</span> 2</a>
+                <%= link_to "Log Out", destroy_user_session_path, method: :delete, class:"nav-link text-decoration-none", style: "display:block" %>
               </li>
             </ul>
           </li>

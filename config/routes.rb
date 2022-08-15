@@ -12,13 +12,13 @@ Rails.application.routes.draw do
       get 'get_provinces_by_region/:id', to: 'addresses#get_provinces_by_region'
       get 'get_cities_by_province/:id', to: 'addresses#get_cities_by_province'
       get 'get_barangays_by_city/:id', to: 'addresses#get_barangays_by_city'
-
     end
   end
 
   constraints(AdminDomainConstraint.new) do
     namespace :admin, path: '' do
       devise_for :users, controllers: { sessions: 'admin/sessions'}
+      resources :client_list, only: :index
       root to: 'dashboard#index'
     end
   end
