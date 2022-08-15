@@ -50,7 +50,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       sign_in @user, :bypass => true
       redirect_to users_detail_path
     else
-      render :edit
+      redirect_to action: :edit
     end
   end
 
@@ -60,7 +60,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       sign_in @user, :bypass => true
       redirect_to users_detail_path
     else
-      render :edit
+      redirect_to action: :edit
     end
   end
 
