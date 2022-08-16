@@ -1,8 +1,4 @@
-<% if @address.errors.any? %>
-  <% @address.errors.full_messages.each do |message| %>
-    <li class="text-danger"><%= message %></li>
-  <% end %>
-<% end %>
+<%= render partial: 'shared/errors', locals: { model: address} %>
 
 <div class="field">
   <%= f.label :name %>
@@ -19,13 +15,13 @@
   <%= f.text_field :street_address, class: 'form-control' %>
 </div>
 
-<div class="form-group">
-  <br>
+<div class="field">
+  <%= f.label :genre %>
   <%= f.select(:genre, Address.genres.keys.map { |key| [key.humanize, key] }, { :prompt => 'Genre' }, class: 'form-control') %>
 </div>
 
 <div class="field">
-  <%= f.label :region_id %>
+  <%= f.label :region %>
   <%= f.collection_select :region_id, Region.order(:region_name), :id, :region_name, { :prompt => 'select region' }, include_blank: true, class: 'form-control' %>
 </div>
 
