@@ -23,7 +23,9 @@ class Admin::CategoriesController < ApplicationController
 
     def destroy
       unless @category.destroy
-        flash[:alert] = "this disaster type is currently in use in a post"
+        flash[:alert] = "this category is currently in use in a post"
+      else
+        flash[:alert] = "deleted successfully"
       end
       redirect_to admin_categories_path
     end

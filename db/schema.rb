@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_15_083737) do
+ActiveRecord::Schema.define(version: 2022_08_16_074545) do
 
   create_table "addresses", charset: "utf8mb4", force: :cascade do |t|
     t.integer "genre"
@@ -44,9 +44,9 @@ ActiveRecord::Schema.define(version: 2022_08_15_083737) do
 
   create_table "categories", charset: "utf8mb4", force: :cascade do |t|
     t.string "name"
-    t.datetime "datetime"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
   end
 
   create_table "cities", charset: "utf8mb4", force: :cascade do |t|
