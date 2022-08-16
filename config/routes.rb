@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     namespace :users do
       resource :detail, only: :show
       resources :addresses, except: :show
+      get 'lottery', to: 'lottery#lottery_page'
       get 'invite-people', to: 'invite_people#invite_page'
 
       # dependent select
