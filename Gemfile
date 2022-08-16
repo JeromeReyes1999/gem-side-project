@@ -20,6 +20,8 @@ gem 'jbuilder', '~> 2.7'
 
 gem 'mysql2'
 
+gem 'aasm'
+
 gem 'devise'
 
 gem 'phonelib'
