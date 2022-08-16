@@ -19,8 +19,9 @@ Rails.application.routes.draw do
     namespace :admin, path: '' do
       devise_for :users, controllers: { sessions: 'admin/sessions'}
       resources :client_list, only: :index
-      root to: 'dashboard#index'
       resources :items, except: :show
+      resources :categories, except: :show
+      root to: 'dashboard#index'
     end
   end
 end

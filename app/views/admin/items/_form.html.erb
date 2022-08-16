@@ -1,8 +1,4 @@
-<% if @item.errors.any? %>
-  <% @item.errors.full_messages.each do |message| %>
-    <li class="text-danger"><%= message %></li>
-  <% end %>
-<% end %>
+<%= render partial: 'shared/errors', locals: { model: @item} %>
 
 <div class="field">
   <%= f.label :image %>
@@ -17,6 +13,11 @@
 <div class="field">
   <%= f.label :quantity %>
   <%= f.number_field  :quantity , class: 'form-control' %>
+</div>
+
+<div class="field">
+  <%= f.label :category %>
+  <%= f.collection_select :category_id, Category.order(:name), :id, :name, { :prompt => 'select category' }, include_blank: true, class: 'form-control' %>
 </div>
 
 <div class="field">

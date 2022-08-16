@@ -1,0 +1,9 @@
+<%= link_to 'back', admin_categories_path, class: 'btn btn-danger' %>
+<%= render partial: 'shared/errors', locals: { model: @category} %>
+<%= form_for @category, url: admin_category_path(@category), method: :patch do |f| %>
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: 'form-control' %>
+  </div>
+  <%= f.submit class:'btn btn-success my-2'  %>
+<% end %>
