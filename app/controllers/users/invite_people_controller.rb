@@ -1,9 +1,8 @@
 class Users::InvitePeopleController < ApplicationController
-  require "rqrcode"
   before_action :set_url
   before_action :generate_qr_code
 
-  layout 'home_layout'
+  private
 
   def set_url
     if current_user

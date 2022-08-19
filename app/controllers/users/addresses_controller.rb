@@ -2,10 +2,8 @@ class Users::AddressesController  < ApplicationController
   before_action :authenticate_user!
   before_action :set_address, only: [:edit, :update, :destroy]
 
-  layout 'home_layout'
-
   def index
-    @addresses = current_user.addresses.includes(:user)
+    @addresses = current_user.addresses
   end
 
   def new
@@ -16,7 +14,8 @@ class Users::AddressesController  < ApplicationController
     @address = Address.new(address_params)
     @address.user = current_user
     if @address.save
-      redirect_to users_addresses_path, notice: 'Successfully Submitted'
+      flash[:notice] = "Successfully created!"
+      redirect_to users_addresses_path
     else
       render :new
     end
@@ -26,6 +25,7 @@ class Users::AddressesController  < ApplicationController
 
   def update
     if @address.update(address_params)
+      flash[:notice] = "Successfully updated!"
       redirect_to users_addresses_path
     else
       render :edit
@@ -34,8 +34,11 @@ class Users::AddressesController  < ApplicationController
 
   def destroy
     if @address.destroy
-      redirect_to users_addresses_path, notice: 'Post successfully deleted'
+      flash[:notice] = "Successfully deleted!"
+    else
+      flash[:alert] = @address.errors.full_messages.join(', ')
     end
+    redirect_to users_addresses_path
   end
 
   def get_provinces_by_region

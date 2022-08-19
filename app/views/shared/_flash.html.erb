@@ -1,0 +1,23 @@
+
+<div class="modal modal-xl" id="flash-modal" data-backdrop="false" tabindex="-1" role="dialog" style="position: fixed; top:-40%">
+  <div class="modal-dialog modal-dialog-centered">
+    <% if alert %>
+      <div class="modal-body alert alert-danger alert-dismissible fade show" role="alert">
+        <%= alert %>
+      </div>
+    <% elsif notice %>
+      <div class="modal-body alert alert-success alert-dismissible fade show" role="alert">
+        <%= notice %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+    $( document ).ready(function() {
+        var has_many = <%= flash.present? %>;
+        if(has_many){
+            $('#flash-modal').show().delay(700).fadeOut();
+        }
+    });
+</script>

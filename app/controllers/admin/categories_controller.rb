@@ -17,15 +17,16 @@ class Admin::CategoriesController < ApplicationController
       if @category.update(category_params)
         redirect_to admin_categories_path
       else
+        flash[:notice] = "Successfully updated!"
         render :edit
       end
     end
 
     def destroy
-      unless @category.destroy
-        flash[:alert] = "this category is currently in use in a post"
+      if @category.destroy
+        flash[:notice] = "Successfully deleted!"
       else
-        flash[:alert] = "deleted successfully"
+        flash[:alert] = @category.errors.full_messages.join(', ')
       end
       redirect_to admin_categories_path
     end
@@ -33,12 +34,14 @@ class Admin::CategoriesController < ApplicationController
     def create
       @category = Category.new(category_params)
       if @category.save
+        flash[:notice] = "Successfully created!"
         redirect_to admin_categories_path
       else
         render :new
       end
     end
 
+    private
 
     def category_params
       params.require(:category).permit(:name)

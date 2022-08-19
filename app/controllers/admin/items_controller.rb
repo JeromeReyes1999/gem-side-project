@@ -1,11 +1,8 @@
 class Admin::ItemsController  < AdminController
-
   before_action :set_items, only: [:edit, :update, :destroy]
 
-  layout 'dashboard_layout'
-
   def index
-    @items = Item.all
+    @items = Item.includes(:category)
   end
 
   def new
@@ -15,7 +12,7 @@ class Admin::ItemsController  < AdminController
   def create
     @item = Item.new(item_params)
     if @item.save
-      redirect_to admin_items_path, notice: 'Successfully Submitted'
+      redirect_to admin_items_path, notice: 'Successfully Created'
     else
       render :new
     end
@@ -25,6 +22,7 @@ class Admin::ItemsController  < AdminController
 
   def update
     if @item.update(item_params)
+      flash[:notice] = "Successfully updated!"
       redirect_to admin_items_path
     else
       render :edit
@@ -33,8 +31,11 @@ class Admin::ItemsController  < AdminController
 
   def destroy
     if @item.destroy
-      redirect_to admin_items_path, notice:  'Items successfully deleted'
+      flash[:notice] = "Successfully deleted!"
+    else
+      flash[:alert] = @item.errors.full_messages.join(', ')
     end
+    redirect_to admin_items_path
   end
 
   private

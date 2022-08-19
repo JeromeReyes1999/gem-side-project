@@ -1,12 +1,8 @@
 class Item < ApplicationRecord
-  validates_presence_of :image
-  validates_presence_of :name
-  validates_presence_of :quantity
-  validates_presence_of :minimum_bets
-  validates_presence_of :online_at
-  validates_presence_of :offline_at
-  validates_presence_of :start_at
-  enum status: [:Active, :Inactive]
+  validates :image, :name, :quantity, :minimum_bets, :online_at, :offline_at, :start_at, presence: true
+  enum status: [:active, :inactive]
+  validates :quantity, numericality: { greater_than: 0 }
+  validates :minimum_bets, numericality: { greater_than: 0 }
 
   belongs_to :category
 
@@ -22,8 +18,8 @@ class Item < ApplicationRecord
     state :pending, initial: true
     state :starting, :paused, :ended, :cancelled
 
-    event :start, after: :set_process do
-      transitions from: [:pending, :ended, :cancelled], to: :starting, after: :set_batch, guards: [:quantity_positive?, :offline_at_future?, :status_active?]
+    event :start do
+      transitions from: [:pending, :ended, :cancelled], to: :starting, after: :set_batch, guards: [:quantity_positive?, :offline_at_future?, :active?]
       transitions from: :paused, to: :starting
     end
 
@@ -41,7 +37,7 @@ class Item < ApplicationRecord
   end
 
   def set_batch
-    self.update(quantity: self.quantity - 1, batch_count: self.batch_count + 1)
+    update_columns(quantity: self.quantity - 1, batch_count: self.batch_count + 1)
   end
 
   def quantity_positive?
@@ -50,9 +46,5 @@ class Item < ApplicationRecord
 
   def offline_at_future?
     offline_at > Time.now
-  end
-
-  def status_active?
-    status == "Active"
   end
 end

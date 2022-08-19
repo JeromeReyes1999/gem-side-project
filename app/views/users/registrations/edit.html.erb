@@ -2,6 +2,7 @@
 <div class="container" style="height: 100vh; margin-top: 80px">
 
   <%= form_for(resource, as: resource_name, url: user_registration_path, html: { method: :put }) do |f| %>
+    <%= render "/devise/shared/error_messages", resource: resource %>
     <img src="" alt='avatar' id="preview" style="width:15%; display:none" >
     <%= image_tag current_user.image.url, alt: 'avatar', style: "width:15%", class:'original' if current_user.image?%>
     <%= image_tag '/test/user-default.jpeg', alt: 'avatar', style: "width:15%", class:'original' unless current_user.image?%>
@@ -46,11 +47,12 @@
         <%= f.submit "Update", class: 'border btn btn-primary form-control' %>
       </div>
       <div class="col">
-        <%= link_to "Back", :back, class: 'btn btn-primary form-control' %>
+        <%= link_to "Back", users_detail_path, class: 'btn btn-primary form-control' %>
       </div>
     </div>
   <% end %>
 </div>
+
 <script>
     function update_image_preview(input){
         document.getElementById('preview').style.display = "inline";

@@ -10,7 +10,7 @@
       <td><%= category.name%></td>
       <td>
         <%= link_to 'edit', edit_admin_category_path(category), class: 'btn btn-warning' %>
-        <%= button_to "delete", admin_category_path(category), method: :delete, data: { confirm: "Are you sure?" }, class: 'btn btn-danger' %>
+        <%= link_to "delete", admin_category_path(category), method: :delete, data: { confirm: "Are you sure?" }, class: 'btn btn-danger' %>
       </td>
     </tr>
   <% end %>
