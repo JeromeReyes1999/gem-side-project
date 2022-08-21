@@ -14,7 +14,7 @@
 </div>
 
 <script>
-    $( document ).ready(function() {
+    $(window).on("load", function () {
         var has_many = <%= flash.present? %>;
         if(has_many){
             $('#flash-modal').show().delay(700).fadeOut();

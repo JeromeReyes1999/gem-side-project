@@ -1,61 +1,67 @@
+<style>
+  p {
+   font-size: 12px;
+   margin-bottom: 4px
+  }
+</style>
+
 <%= content_tag :p, address.errors.full_messages_for(:base).join(', '), class: 'text-danger' if address.errors.has_key?(:base) %>
 
 <div class="field">
   <%= f.label :name %>
-  <%= f.text_field :name, class: 'form-control' %>
+  <%= f.text_field :name, class: 'form-control form-control-sm' %>
   <%= content_tag :p, address.errors.full_messages_for(:name).join(', '), class: 'text-danger' if address.errors.has_key?(:name) %>
 </div>
 
 <div class="field">
   <%= f.label :phone_number %>
-  <%= f.text_field :phone_number, class: 'form-control' %>
+  <%= f.text_field :phone_number, class: 'form-control  form-control-sm' %>
   <%= content_tag :p, address.errors.full_messages_for(:phone_number).join(', '), class: 'text-danger' if address.errors.has_key?(:phone_number) %>
 </div>
 
 <div class="field">
   <%= f.label :street_address %>
-  <%= f.text_field :street_address, class: 'form-control' %>
+  <%= f.text_field :street_address, class: 'form-control  form-control-sm' %>
   <%= content_tag :p, address.errors.full_messages_for(:street_address).join(', '), class: 'text-danger' if address.errors.has_key?(:street_address) %>
 </div>
 
 <div class="field">
   <%= f.label :genre %>
-  <%= f.select(:genre, Address.genres.keys.map { |key| [key.humanize, key] }, { :prompt => 'Genre' }, class: 'form-control') %>
+  <%= f.select(:genre, Address.genres.keys.map { |key| [key.humanize, key] }, { :prompt => 'Genre' }, class: 'form-control  form-control-sm') %>
   <%= content_tag :p, address.errors.full_messages_for(:genre).join(', '), class: 'text-danger' if address.errors.has_key?(:genre) %>
 </div>
 
 <div class="field">
   <%= f.label :region %>
-  <%= f.collection_select :region_id, Region.order(:region_name), :id, :region_name, { :prompt => 'select region' }, include_blank: true, class: 'form-control' %>
+  <%= f.collection_select :region_id, Region.order(:region_name), :id, :region_name, { :prompt => 'select region' }, include_blank: true, class: 'form-control  form-control-sm' %>
   <%= content_tag :p, address.errors.full_messages_for(:region).join(', '), class: 'text-danger' if address.errors.has_key?(:region) %>
 </div>
 
 <div class="field">
   <%= f.label :province %>
-  <%= f.collection_select :province_id, [], :id,:name ,{ prompt: 'select province' }, include_blank: true, class: 'form-control' %>
+  <%= f.collection_select :province_id, Province.where(region_id: address.region_id), :id,:name ,{ prompt: 'select province' }, include_blank: true, class: 'form-control  form-control-sm' %>
   <%= content_tag :p, address.errors.full_messages_for(:province).join(', '), class: 'text-danger' if address.errors.has_key?(:province) %>
 </div>
 
 <div class="field">
   <%= f.label :city %>
-  <%= f.collection_select :city_id, [], :id,:name ,{ prompt: 'select city' }, include_blank: true, class: 'form-control' %>
+  <%= f.collection_select :city_id,  City.where(province_id: address.province_id), :id,:name ,{ prompt: 'select city' }, include_blank: true, class: 'form-control  form-control-sm' %>
   <%= content_tag :p, address.errors.full_messages_for(:city).join(', '), class: 'text-danger' if address.errors.has_key?(:city) %>
 </div>
 
 <div class="field">
   <%= f.label :barangay %>
-  <%= f.collection_select :barangay_id, [], :id,:name ,{ prompt: 'select barangay' }, include_blank: true, class: 'form-control' %>
+  <%= f.collection_select :barangay_id,  Barangay.where(city_id: address.city_id), :id,:name ,{ prompt: 'select barangay' }, include_blank: true, class: 'form-control  form-control-sm' %>
   <%= content_tag :p, address.errors.full_messages_for(:barangay).join(', '), class: 'text-danger' if address.errors.has_key?(:barangay) %>
 </div>
 
 <div class="field">
   <%= f.label :remark %>
-  <%= f.text_area :remark, class: 'form-control' %>
+  <%= f.text_area :remark, class: 'form-control form-control-sm' %>
   <%= content_tag :p, address.errors.full_messages_for(:remark).join(', '), class: 'text-danger' if address.errors.has_key?(:remark) %>
 </div>
 
 <script>
-    $(document).ready(function () {
         function change_options(id, url, to_change){
             if (id) {
                 $.ajax({
@@ -104,5 +110,4 @@
             var to_change = $("select[id='address_barangay_id']");
             change_options(id, url, to_change);
         });
-    });
 </script>

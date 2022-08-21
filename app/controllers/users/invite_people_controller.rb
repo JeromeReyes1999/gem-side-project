@@ -21,6 +21,7 @@ class Users::InvitePeopleController < ApplicationController
       module_size: 11,
       standalone: true,
       use_path: true,
+      viewbox: true
     )
   end
 end

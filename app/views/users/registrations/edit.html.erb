@@ -1,58 +1,71 @@
-
-<div class="container" style="height: 100vh; margin-top: 80px">
-
-  <%= form_for(resource, as: resource_name, url: user_registration_path, html: { method: :put }) do |f| %>
-    <%= render "/devise/shared/error_messages", resource: resource %>
-    <img src="" alt='avatar' id="preview" style="width:15%; display:none" >
-    <%= image_tag current_user.image.url, alt: 'avatar', style: "width:15%", class:'original' if current_user.image?%>
-    <%= image_tag '/test/user-default.jpeg', alt: 'avatar', style: "width:15%", class:'original' unless current_user.image?%>
-
-    <div class="field">
-      <%= f.label :image %>
-      <%= f.file_field :image, class: 'form-control', onchange:"update_image_preview(this)" %>
-    </div>
-
-    <div class="field">
-      <%= f.label :email %><br/>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control', disabled: true %>
-    </div>
-
-    <div class="field">
-      <%= f.label :username, 'Username' %><br/>
-      <%= f.text_field :username, autofocus: true, autocomplete: "username", class: 'form-control' %>
-    </div>
-
-    <div class="field">
-      <%= f.label :phone, 'Phone Number' %><br/>
-      <%= f.text_field :phone, autofocus: true, autocomplete: "phone", class: 'form-control'%>
-    </div>
-
-    <div class="field">
-      <%= f.label :current_password %> <i>(We need your current password to confirm your changes)</i><br/>
-      <%= f.password_field :current_password, autocomplete: "current-password", class: 'form-control' %>
-    </div>
-
-    <div class="field">
-      <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br/>
-      <%= f.password_field :password, autocomplete: "new-password", class: 'form-control' %>
-    </div>
-
-    <div class="field">
-      <%= f.label :password_confirmation %><br/>
-      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control' %>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col">
-        <%= f.submit "Update", class: 'border btn btn-primary form-control' %>
+<style>
+  p {
+   font-size: 12px;
+   margin-bottom: 4px
+  }
+</style>
+<div class="container">
+    <div class="card">
+      <div class="card-header">
+          <%= link_to "❮ Back", users_detail_path, class: 'btn btn-sm btn-outline-primary d-inline-block '%>
+          <h5 class="d-inline-block align-middle mx-2 my-1">Edit Profile</h5>
       </div>
-      <div class="col">
-        <%= link_to "Back", users_detail_path, class: 'btn btn-primary form-control' %>
+
+      <div class="card-body">
+        <%= form_for(resource, as: resource_name, url: user_registration_path, html: { method: :put }) do |f| %>
+        <div class="text-center">
+          <div class="m-auto justify-content-center d-flex overflow-hidden rounded-circle border border-secondary border-4" style="width:150px; aspect-ratio: 1 / 1;">
+            <img src="" alt='avatar' id="preview" class="w-100 h-100" style="display:none; object-fit: cover;">
+            <%= image_tag current_user.image.url, alt: 'avatar', class:"original w-100 h-100", style:"object-fit: cover" if current_user.image?%>
+            <%= image_tag src="https://lh4.googleusercontent.com/PSjX8tDhtVtVjqX_vGV8lICE1_HyiTHJVapXW-B1ZheNQCdabVvK_YBIu0opmVTNyKc=w2400", class:"original w-100 h-100", style:"object-fit: cover" unless current_user&.image? %>
+          </div>
+          <div class="field mt-1">
+            <%= f.label :image, "change avatar", class:"btn btn-dark"%>
+            <%= f.file_field :image, class: 'form-control d-none', onchange:"update_image_preview(this)" %>
+          </div>
+        </div>
+
+          <div class="field">
+            <%= f.label :email %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control', disabled: true %>
+          </div>
+
+          <div class="field">
+            <%= f.label :username, 'Username' %>
+            <%= f.text_field :username, autofocus: true, autocomplete: "username", class: 'form-control' %>
+            <%= content_tag :p, resource.errors.full_messages_for(:username).join(', '), class: 'text-danger' if resource.errors.has_key?(:username) %>
+          </div>
+
+          <div class="field">
+            <%= f.label :phone, 'Phone Number' %>
+            <%= f.text_field :phone, autofocus: true, autocomplete: "phone", class: 'form-control'%>
+            <%= content_tag :p, resource.errors.full_messages_for(:phone).join(', '), class: 'text-danger' if resource.errors.has_key?(:phone) %>
+          </div>
+        <hr>
+        <div class="mb-3">
+          <h5 class="d-inline">Change Password</h5> <i class="d-inline">(leave blank if you don't want to change it)</i>
+        </div>
+          <div class="field">
+            <%= f.label :current_password %>
+            <%= f.password_field :current_password, autocomplete: "current-password", class: 'form-control' %>
+            <%= content_tag :p, resource.errors.full_messages_for(:current_password).join(', '), class: 'text-danger' if resource.errors.has_key?(:current_password) %>
+          </div>
+          <div class="field">
+            <%= f.label :password %> 
+            <%= f.password_field :password, autocomplete: "new-password", class: 'form-control' %>
+            <%= content_tag :p, resource.errors.full_messages_for(:password).join(', '), class: 'text-danger' if resource.errors.has_key?(:password) %>
+          </div>
+
+          <div class="field">
+            <%= f.label :password_confirmation %>
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control' %>
+            <%= content_tag :p, resource.errors.full_messages_for(:password_confirmation).join(', '), class: 'text-danger' if resource.errors.has_key?(:password_confirmation) %>
+          </div>
+          <%= f.submit "Update", class: 'border btn btn-primary form-control mt-2' %>
+        <% end %>
       </div>
     </div>
-  <% end %>
 </div>
-
 <script>
     function update_image_preview(input){
         document.getElementById('preview').style.display = "inline";

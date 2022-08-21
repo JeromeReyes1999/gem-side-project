@@ -1,18 +1,16 @@
-<div class="container" style="margin-top: 100px">
-
+<div class="container">
   <div class="row">
-    <div class="col">
-      <%= link_to "Back", users_detail_path, class: 'btn btn-primary w-100'%>
-    </div>
-    <div class="col">
-      <%= link_to "New", new_users_address_path, class:"btn btn-success w-100"%>
+    <div class="col-4">
+      <%= link_to "New", new_users_address_path, class:"btn btn-primary w-100"%>
     </div>
   </div>
 
   <div class="card w-100" style=" margin-top:10px">
-      <div class="card-header">
-        Addresses List
-      </div>
+        <div class="card-header">
+              <%= link_to "❮ Back", users_detail_path, class: 'btn btn-sm btn-outline-primary d-inline-block '%>
+              <h5 class="d-inline-block align-middle mx-2 my-1">Address Lists</h5>
+        </div>
+      
 
         <ul class="list-group list-group-flush">
           <% unless @addresses.present?%>

@@ -44,7 +44,7 @@ class Address < ApplicationRecord
 
   def limit_address
     if user.addresses.count >= LIMIT
-      errors.add(:base, "You reach the limit")
+      errors.add(:base, "You can only have 5 addresses")
     end
   end
 end

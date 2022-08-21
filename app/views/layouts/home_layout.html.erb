@@ -9,24 +9,26 @@
   <!-- Warning !! ensure that "stylesheet_pack_tag" is used, line below -->
   <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+
 </head>
 
 <body>
 <nav class="navbar navbar-dark bg-dark fixed-top">
   <div class="container-fluid">
 
-    <div style="text-align: center">
-      <%= link_to "MyGacha", root_path, class:"navbar-brand" %>
-    </div>
 
-    <ul class="navbar-nav ms-auto " style="display: inline-block">
-      <li class="nav-item active px-3" style="display: inline-block">
+      <%= link_to root_path  do %>
+          <%= image_tag "https://lh6.googleusercontent.com/M8AMvYqHnsH3rKCwvkmP5J8ZqVY3_gVuVbXxNLAf5qrOG7uZP7T_7p_Tx25Lfkgmj2E=w2400", style:"width:25vw; max-width:150px", alt: 'logo'%>
+      <% end %>
+    <ul class="navbar-nav ms-auto " style="display: inline-block; font-size: min(3.5vw, 16px);" >
+      <li class="nav-item active" style="display: inline-block; margin-right:3vw">
         <a class="nav-link" href="#">Coins </a>
       </li>
-      <li class="nav-item px-3" style="display: inline-block">
+      <li class="nav-item" style="display: inline-block; margin-right:3vw">
         <a class="nav-link" href="#">Claim</a>
       </li>
-      <li class="nav-item px-3" style="display: inline-block">
+      <li class="nav-item" style="display: inline-block; margin-right:3vw">
         <a class="nav-link" href="#">Languages</a>
       </li>
     </ul>
@@ -44,11 +46,15 @@
   </div>
   <div class="offcanvas-body">
     <% if current_user%>
-      <%= image_tag "#{request.base_url}/#{current_user.image.url}", class:"w-50" if current_user&.image? %>
-      <%= image_tag src="/test/user-default.jpeg", class:"d-block w-25" unless current_user&.image? %>
-      <div class="py-2" style="display:block" >Username:</div>
-      <div class="py-2" style="display:block" >Email: <%= current_user.email %></div>
-      <div class="py-2" style="display:block" >Coins:</div>
+      <div class="justify-content-center d-flex overflow-hidden rounded-circle border border-secondary border-4" style="width: 25%; aspect-ratio: 1 / 1;">
+            <%= image_tag current_user.image.url, alt: 'avatar', class:"w-100 h-100", style:"object-fit: cover" if current_user.image?%>
+            <%= image_tag src="https://lh4.googleusercontent.com/PSjX8tDhtVtVjqX_vGV8lICE1_HyiTHJVapXW-B1ZheNQCdabVvK_YBIu0opmVTNyKc=w2400", class:"w-100 h-100", style:"object-fit: cover" unless current_user&.image? %>
+      </div>
+      <div class="my-3">
+          <div class="col-form-label"><b class="pe-2">Username:</b><%= current_user.username %></div>
+          <div class="col-form-label"><b class="pe-2">Email:</b><%= current_user.email %></div>
+          <div class="col-form-label"><b class="pe-2">Coins:</b><%= current_user.coins %></div>
+      </div>
       <%= link_to "Cash in Now", url="#", class: "btn btn-warning float-right ", style: "display:block" %>
       <%= link_to "Contact Us", url="#", class:"link-secondary text-decoration-none py-3", style: "display:block"%>
       <%= link_to "My Profile", url="#", class:"link-secondary text-decoration-none py-3", style: "display:block"%>
@@ -68,29 +74,32 @@
     insert something here
   </div>
 </div>
-<%= render "shared/flash" %>
-<%= yield %>
+
+<%= render "shared/flash" if current_user%>
+
+<div style="padding-top: 80px; padding-bottom: 100px">
+  <%= yield %>
+</div>
 
 <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
-
-  <div class="collapse navbar-collapse justify-content-center align-items-center" id="navbarCollapse">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item px-4">
-        <a class="nav-link" href="#">Share</a>
-      </li>
-      <li class="nav-item px-4">
-        <%= link_to "Invite", users_invite_people_path, class:"nav-link" %>
-      </li>
-      <li class="nav-item px-4">
-        <%= link_to "Lottery", users_lottery_path, class:"nav-link" %>
-      </li>
-      <li class="nav-item px-4">
-        <a class="nav-link" href="#">Shop</a>
-      </li>
-      <li class="nav-item px-4">
-        <%= link_to "Me", users_detail_path, class:"nav-link" %>
-      </li>
-    </ul>
+<div class="container justify-content-center py-2">
+    <div class="row w-100">
+      <div class="col text-center" style="font-size: min(3.5vw, 16px);">
+        <a class="link-secondary text-decoration-none" href="#">Share</a>
+      </div>
+      <div class="col text-center" style="font-size: min(3.5vw, 16px);">
+        <%= link_to "Invite", users_invite_people_path, class:"link-secondary text-decoration-none" %>
+      </div>
+      <div class="col text-center" style="font-size: min(3.5vw, 16px);">
+        <%= link_to "Lottery", users_lottery_path, class:"link-secondary text-decoration-none" %>
+      </div>
+      <div class="col text-center" style="font-size: min(3.5vw, 16px);">
+        <a class="link-secondary text-decoration-none" href="#">Shop</a>
+      </div>
+      <div class="col text-center" style="font-size: min(3.5vw, 16px);">
+        <%= link_to "Me", users_detail_path, class:"link-secondary text-decoration-none" %>
+      </div>
+    </div>
   </div>
 </nav>
 

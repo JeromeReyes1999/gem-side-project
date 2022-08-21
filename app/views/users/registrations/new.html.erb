@@ -1,4 +1,3 @@
-<section class="vh-100">
 
   <div class="container py-5 h-100">
 
@@ -18,34 +17,30 @@
 
           <div class="card-body p-5">
             <%= form_for(resource, as: resource_name, url: user_registration_path) do |f| %>
-              <p class="text-danger"><%= notice %></p>
-              <p class="text-danger"><%= alert %></p>
-
               <% if cookies[:promoter] %>
-                <div class="form-outline mb-4">
+                <div class="form-outline mb-3">
                   <%= f.label :promoter %>
                   <%= f.email_field :parent, class: "form-control form-control-lg mb-3", autofocus: true, autocomplete: "email", value: cookies[:promoter], readonly: true %>
+                  <%= content_tag :p, resource.errors.full_messages_for(:parent).join(', '), class: 'text-danger m-1' if resource.errors.has_key?(:parent) %>
                 </div>
               <% end %>
 
-              <%= render "devise/shared/error_messages", resource: resource %>
-
-              <div class="form-outline mb-4">
-                <%= f.label :email, class: "form-label"  %><br />
+              <div class="form-outline mb-3">
+                <%= f.label :email, class: "form-label"  %>
                 <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-control-lg" %>
+                <%= content_tag :p, resource.errors.full_messages_for(:email).join(', '), class: 'text-danger m-1' if resource.errors.has_key?(:email) %>
               </div>
 
-              <div class="form-outline mb-4">
-                <%= f.label :password, class: "form-label"  %>
-                <% if @minimum_password_length %>
-                  <em>(<%= @minimum_password_length %> characters minimum)</em>
-                <% end %><br />
+              <div class="form-outline mb-3">
+                <%= f.label :password, class: "form-label d-inline"  %>
                 <%= f.password_field :password, autocomplete: "new-password", class: "form-control form-control-lg" %>
+                <%= content_tag :p, resource.errors.full_messages_for(:password).join(', '), class: 'text-danger m-1' if resource.errors.has_key?(:password) %>
               </div>
 
-              <div class="form-outline mb-4">
-                <%= f.label :password_confirmation, class: "form-label"  %><br />
+              <div class="form-outline mb-3">
+                <%= f.label :password_confirmation, class: "form-label"  %>
                 <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control form-control-lg" %>
+                <%= content_tag :p, resource.errors.full_messages_for(:password_confirmation).join(', '), class: 'text-danger m-1' if resource.errors.has_key?(:password_confirmation) %>
               </div>
 
               <div class="actions">

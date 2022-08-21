@@ -1,48 +1,6 @@
-<style>
+<%=render "shared/banner"%>
 
-</style>
-<div class="container">
-  <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    </div>
-    <div class="carousel-inner" style="max-height: 400px">
-      <div class="carousel-item active">
-        <img src="/test/banner-1.jpeg" class="d-block w-100 overflow-hidden"  alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="/test/banner-2.jpeg" class="d-block w-100 w-100 overflow-hidden"  alt="...">
-      </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
-</div>
-
-
-<section class=" text-light bg-dark" style="height: 4vh;">
-  <div>
-    <div class="container">
-      <div class="ticker">
-        <div class="title"></div>
-        <div class="news">
-          <marquee class="news-content">
-            <h4>Hello World</h4>
-          </marquee>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-  <div class="container" style="margin-bottom: 100px; margin-top: 5px">
+<div class="container mt-2">
     <div class="mb-2">
       <%= link_to 'All', users_lottery_path, class:"btn btn-info" if params[:category]%>
       <%= link_to 'All', users_lottery_path, class:"btn btn-primary" unless params[:category]%>

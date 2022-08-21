@@ -1,19 +1,19 @@
-<div class="container" style="margin-top: 100px">
-  <div class="card">
+<div class="container">
+  <div class="card m-auto" style="max-width: 900px">
     <div class="card-body">
-
-      <div class="d-flex justify-content-md-center" >
-
-      </div>
-      <div class="mb-3" style="margin: 20px">
-        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Username: <%= current_user.username %></label>
-      </div>
-      <div class="mb-3" style="margin: 20px">
-        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Email: <%= current_user.email %></label>
-      </div>
-      <div class="mb-3" style="margin: 20px">
-        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Coins: </label>
-      </div>
+        <div class="row align-middle mb-3">
+          <div class="col-5 col-sm-4 col-md-3 col-lg-2">
+            <div class=" justify-content-center d-flex overflow-hidden rounded-circle border border-secondary border-4" style="width: 100%; aspect-ratio: 1 / 1;">
+                  <%= image_tag current_user.image.url, alt: 'avatar', class:"w-100 h-100", style:"object-fit: cover" if current_user.image?%>
+                  <%= image_tag src="https://lh4.googleusercontent.com/PSjX8tDhtVtVjqX_vGV8lICE1_HyiTHJVapXW-B1ZheNQCdabVvK_YBIu0opmVTNyKc=w2400", class:"w-100 h-100", style:"object-fit: cover" unless current_user&.image? %>
+            </div>
+          </div>
+          <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+              <div class="col-form-label"><b class="pe-2">Username:</b> <%= current_user.username %></div>
+              <div class="col-form-label"><b class="pe-2">Email:</b> <%= current_user.email %></div>
+              <div class="col-form-label"><b class="pe-2"> Coins:</b> <%= current_user.coins %></div>
+          </div>
+        </div>
 
       <div class="mb-3">
         <a href="#" class="btn btn-primary form-control">Cash in Now</a>
