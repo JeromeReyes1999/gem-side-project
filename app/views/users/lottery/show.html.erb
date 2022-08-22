@@ -1,0 +1,83 @@
+<style>
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
+
+<div class="card m-auto" style="width:95vw; max-width: 800px">
+  <%= image_tag @item.image.url, class:'card-img-top img-responsive card-img-top' if @item.image?%>
+  <div class="card-body">
+
+  </div>
+  <div class="card-footer">
+    <%= form_for @bet, url: users_lottery_index_path(id: @item), method: :post do |f| %>
+      <div class="container w-100">
+        <div class="row">
+          <div class="col m-auto text-center">
+            <button onclick="add(1)" id="minus" class="btn btn-primary" style="width: 50px" type="button">1</button>
+          </div>
+          <div class="col text-center">
+            <button onclick="add(5)" id="minus" class="btn btn-primary" style="width: 50px" type="button">5</button>
+          </div>
+          <div class="col text-center">
+            <button onclick="add(10)" id="minus" class="btn btn-primary" style="width: 50px" type="button">10</button>
+          </div>
+          <div class="col text-center">
+            <button onclick="add(20)" id="minus" class="btn btn-primary" style="width: 50px" type="button">20</button>
+          </div>
+        </div>
+      </div>
+      <div class="m-auto input-group w-100 my-3" style="height:30px">
+        <button onclick="decrement()" id="minus" class="btn btn-outline-secondary" style="width: 50px" type="button">-</button>
+        <%= f.number_field :coins, id:"coin_field", class: "form-control", min:'1', value:'1' %>
+        <button onclick="add(1)" class="btn btn-outline-secondary" type="button" style="width: 50px">+</button>
+      </div>
+
+      <div>
+      <%= f.submit "Place bet", class: 'btn btn-primary form-control mt-2' %>
+      </div>
+    <%end%>
+  </div>
+</div>
+
+
+        <table class="table table-bordered table-striped text-center m-auto mt-3" style="width:95vw; max-width: 800px;">
+          <thead>
+          <tr>
+            <th scope="col" >Serial number of your bets</th>
+          </tr>
+          <% if @user_bets.blank? %>
+            <tr>
+              <td style="vertical-align: middle">No record</td>
+            </tr>
+          <% end %>
+          <% @user_bets.each do |bet| %>
+            <tr class="table-warning ">
+              <td style="vertical-align: middle"><%= bet.serial_number %></td>
+            </tr>
+          <% end %>
+          </thead>
+        </table>
+
+
+<script>
+
+    function decrement(){
+        var coin_value = parseInt($('#coin_field').val());
+        if(coin_value>1){
+            $('#coin_field').val(coin_value -= 1);
+        }
+    }
+    function add(step){
+        var coin_value = parseInt($('#coin_field').val());
+        $('#coin_field').val(coin_value += step);
+    }
+</script>

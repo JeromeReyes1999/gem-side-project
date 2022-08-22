@@ -5,6 +5,7 @@ class Item < ApplicationRecord
   validates :minimum_bets, numericality: { greater_than: 0 }
 
   belongs_to :category
+  has_many :bets
 
   mount_uploader :image, ImageUploader
   default_scope { where(deleted_at: nil) }
