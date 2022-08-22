@@ -5,12 +5,18 @@ class Item < ApplicationRecord
   validates :minimum_bets, numericality: { greater_than: 0 }
 
   belongs_to :category
+  has_many :bets
 
   mount_uploader :image, ImageUploader
   default_scope { where(deleted_at: nil) }
 
   def destroy
-    update(deleted_at: Time.current)
+    if self.bets.present?
+      errors.add(:base, "Can't delete an item that has bet on it")
+      return false
+    else
+      update(deleted_at: Time.current)
+    end
   end
 
   include AASM
@@ -31,9 +37,17 @@ class Item < ApplicationRecord
       transitions from: :starting, to: :ended
     end
 
-    event :cancel do
+    event :cancel, after: [:cancel_bet, :return_item]  do
       transitions from: [:starting, :paused], to: :cancelled
     end
+  end
+
+  def return_item
+    update(quantity: quantity + 1)
+  end
+
+  def cancel_bet
+    bets.where(batch_count: batch_count).each {| bet | bet.cancel!}
   end
 
   def set_batch

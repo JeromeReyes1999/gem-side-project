@@ -6,7 +6,8 @@ Rails.application.routes.draw do
     namespace :users do
       resource :detail, only: :show
       resources :addresses, except: :show
-      get 'lottery', to: 'lottery#lottery_page'
+      resources :lottery,  only: [:create, :show, :index ]
+
       get 'invite-people', to: 'invite_people#invite_page'
 
       # dependent select
@@ -22,6 +23,7 @@ Rails.application.routes.draw do
       resources :client_list, only: :index
       resources :items, except: :show
       resources :categories, except: :show
+      resources :bet_list,  only: :index
       root to: 'dashboard#index'
     end
   end
