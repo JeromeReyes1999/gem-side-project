@@ -5,11 +5,11 @@ class Category < ApplicationRecord
   default_scope { where(deleted_at: nil) }
 
   def destroy
-    unless self.items.present?
-      update(deleted_at: Time.current)
-    else
+    if self.items.present?
       errors.add(:base, "Can't delete a category that's currently used in an item")
       return false
+    else
+      update(deleted_at: Time.current)
     end
   end
 end

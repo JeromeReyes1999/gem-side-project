@@ -9,6 +9,7 @@
     <th scope="col">Quantity</th>
     <th scope="col">Category</th>
     <th scope="col">Minimum bets</th>
+    <th scope="col">State</th>
     <th scope="col">Online at</th>
     <th scope="col">Offline at</th>
     <th scope="col">Start at</th>
@@ -24,6 +25,7 @@
         <td><%= item.quantity %></td>
         <td><%= item.category.name %></td>
         <td><%= item.minimum_bets %></td>
+        <td><%= item.state %></td>
         <td><%= item.online_at %></td>
         <td><%= item.online_at %></td>
         <td><%= item.start_at %></td>
@@ -35,7 +37,7 @@
     <% end %>
   <%unless @items.present?%>
     <tr>
-      <td colspan="9" class="text-muted">
+      <td colspan="10" class="text-muted">
           No items to show
       </td>
     </tr>
