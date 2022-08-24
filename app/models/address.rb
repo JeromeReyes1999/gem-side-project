@@ -19,7 +19,7 @@ class Address < ApplicationRecord
   after_commit :allow_one_default_address
   
   validate :limit_address, on: :create
-
+  has_many :winners
 
   enum genre: [:home, :office]
 

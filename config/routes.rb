@@ -21,6 +21,8 @@ Rails.application.routes.draw do
     namespace :admin, path: '' do
       devise_for :users, controllers: { sessions: 'admin/sessions'}
       resources :client_list, only: :index
+      resources :winners, only: :index
+      get 'transition', to: 'winners#transition'
       resources :items, except: :show
       resources :categories, except: :show
       resources :bet_list,  only: :index

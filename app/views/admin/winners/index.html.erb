@@ -1,0 +1,83 @@
+
+<div class="card">
+  <div class="card-body ">
+      <%= form_tag({ url: admin_winners_path }, { method: :get }) do %>
+          <div class="row">
+            <div class="col-3">
+              <%= label_tag :serial_number %>
+              <%= text_field_tag :serial_number, '', class:"form-control", value:params[:serial_number] %>
+            </div>
+            <div class="col-3">
+              <%= label_tag :email %>
+              <%= text_field_tag :email, '',  class:"form-control", value:params[:email] %>
+            </div>
+            <div class="col-3">
+              <%= label_tag :genre%>
+              <%= select_tag :state, options_for_select([]), { prompt: 'select genre', class:"form-control"}%>
+            </div>
+            <div class="col-3">
+              <%= label_tag :state%>
+              <%= select_tag :state, options_for_select(Winner.aasm.states.map(&:name), params[:state]), { prompt: 'select state', class:"form-control"}%>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <%= label_tag :date_created %>
+            <div class="col-6">
+              <div class="input-group">
+                <span class="input-group-text">From</span>
+                <%= datetime_field_tag :from, '', class:"form-control", value:params[:from] %>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="input-group">
+                <span class="input-group-text">To</span>
+                <%= datetime_field_tag :to, '', class:"form-control", value:params[:to] %>
+              </div>
+            </div>
+          </div>
+      <div class="mt-3">
+        <%= link_to "Reset", admin_winners_path, class: 'btn btn-danger'%>
+        <%= submit_tag :Search, class: "btn btn-primary" %>
+      </div>
+      <% end %>
+  </div>
+</div>
+<div class="card mt-4">
+  <div class="card-body ">
+    <table class="table table-striped table-hover">
+      <thead>
+      <tr>
+        <th scope="col">Product name</th>
+        <th scope="col">Batch count</th>
+        <th scope="col">User email</th>
+        <th scope="col">State</th>
+        <th scope="col">Created_at</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @winners.each do |winner|%>
+        <tr>
+          <td><%= winner.item.name %></td>
+          <td><%= winner.batch_count %></td>
+          <td><%= winner.user.email %></td>
+          <td><%= winner.state %></td>
+          <td><%= winner.created_at %></td>
+          <td>
+            <% winner.aasm.permitted_transitions.each do |transition|%>
+              <%= button_to transition[:event], admin_transition_path, params:{id: winner, event: transition[:event] }, method: :get, class: 'btn btn-warning', data: { disable_with: "Please wait...",  confirm: 'Are you sure?'}%>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+      <%unless @winners.present?%>
+        <tr>
+          <td colspan="7" class="text-muted">
+            No items to show
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

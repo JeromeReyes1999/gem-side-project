@@ -1,11 +1,12 @@
 class Item < ApplicationRecord
   validates :image, :name, :quantity, :minimum_bets, :online_at, :offline_at, :start_at, presence: true
-  enum status: [:active, :inactive]
   validates :quantity, numericality: { greater_than: 0 }
   validates :minimum_bets, numericality: { greater_than: 0 }
+  enum status: [:active, :inactive]
 
   belongs_to :category
   has_many :bets
+  has_many :winners
 
   mount_uploader :image, ImageUploader
   default_scope { where(deleted_at: nil) }

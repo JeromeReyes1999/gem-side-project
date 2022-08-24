@@ -6,7 +6,7 @@ class User < ApplicationRecord
   validates :phone, phone: {allow_blank: true}
 
   mount_uploader :image, ImageUploader
-
+  has_many :winners
   has_many :addresses
   has_many :bets
   has_many :children, class_name: "User", foreign_key: "parent_id"
