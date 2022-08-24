@@ -1,5 +1,4 @@
 class Users::SessionsController < Devise::SessionsController
-  layout "home_layout"
 
   def create
     user = User.find_for_authentication(email: params[:user][:email])
