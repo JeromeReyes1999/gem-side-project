@@ -3,6 +3,7 @@ class Winner < ApplicationRecord
     belongs_to :user
     belongs_to :address
     belongs_to :admin, class_name: "User"
+    belongs_to :bet
 
     include AASM
     aasm column: :state do

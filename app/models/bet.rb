@@ -3,6 +3,7 @@ class Bet < ApplicationRecord
   belongs_to :user
   belongs_to :item
   after_create :generate_serial_number
+  has_many :winners
 
   include AASM
   aasm column: :state do

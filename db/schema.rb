@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_24_142109) do
+ActiveRecord::Schema.define(version: 2022_08_25_085601) do
 
   create_table "addresses", charset: "utf8mb4", force: :cascade do |t|
     t.integer "genre"
@@ -140,8 +140,10 @@ ActiveRecord::Schema.define(version: 2022_08_24_142109) do
     t.string "comment"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "bet_id"
     t.index ["address_id"], name: "index_winners_on_address_id"
     t.index ["admin_id"], name: "index_winners_on_admin_id"
+    t.index ["bet_id"], name: "index_winners_on_bet_id"
     t.index ["item_id"], name: "index_winners_on_item_id"
     t.index ["user_id"], name: "index_winners_on_user_id"
   end
