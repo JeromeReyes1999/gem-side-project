@@ -15,7 +15,12 @@
 <div class="card m-auto" style="width:95vw; max-width: 800px">
   <%= image_tag @item.image.url, class:'card-img-top img-responsive card-img-top' if @item.image?%>
   <div class="card-body">
-
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" aria-label="Example with label" style="width: <%= progress(@item) %>%;" aria-valuenow="<%= progress(@item) %>" aria-valuemin="0" aria-valuemax="100"><%= progress(@item) %>%</div>
+    </div>
+    <div>
+      <p class="text-muted"><%="#{@item.bets.where(batch_count: @item.batch_count).count}/#{@item.minimum_bets}"%></p>
+    </div>
   </div>
   <div class="card-footer">
     <%= form_for @bet, url: users_lottery_index_path(id: @item), method: :post do |f| %>
