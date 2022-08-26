@@ -44,6 +44,7 @@
       <thead>
       <tr>
         <th scope="col">Product name</th>
+        <th scope="col">Product serial number</th>
         <th scope="col">Batch count</th>
         <th scope="col">User email</th>
         <th scope="col">State</th>
@@ -55,13 +56,14 @@
       <% @winners.each do |winner|%>
         <tr>
           <td><%= winner.item.name %></td>
+          <td><%= winner.bet.serial_number %></td>
           <td><%= winner.batch_count %></td>
           <td><%= winner.user.email %></td>
           <td><%= winner.state %></td>
           <td><%= winner.created_at %></td>
           <td>
-            <% winner.aasm.permitted_transitions.each do |transition|%>
-              <%= button_to transition[:event], admin_transition_path, params:{id: winner, event: transition[:event] }, method: :get, class: 'btn btn-warning', data: { disable_with: "Please wait...",  confirm: 'Are you sure?'}%>
+            <% winner.aasm.events(reject: [:claim, :share]).map(&:name).each do |transition|%>
+              <%= button_to transition, admin_transition_path, params:{id: winner, event: transition }, method: :get, class: 'btn btn-warning', data: { disable_with: "Please wait...",  confirm: 'Are you sure?'}%>
             <% end %>
           </td>
         </tr>
