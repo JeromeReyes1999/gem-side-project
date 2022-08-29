@@ -35,7 +35,7 @@ class Item < ApplicationRecord
     end
 
     event :end do
-      transitions from: :starting, to: :ended
+      transitions from: [:starting, :paused], to: :ended, after: :draw_winner, guard: :minimum_bets_reached?
     end
 
     event :cancel, after: [:cancel_bet, :return_item]  do
@@ -45,6 +45,20 @@ class Item < ApplicationRecord
 
   def return_item
     update(quantity: quantity + 1)
+  end
+
+  def minimum_bets_reached?
+    bets.where(batch_count: batch_count).count >= minimum_bets
+  end
+
+  def draw_winner
+    entries = bets.where(batch_count: batch_count).where.not(state: :cancelled)
+    winning_bet = entries.sample
+    winning_bet.win!
+    entries.where.not(id: winning_bet.id).update_all(state: :lost)
+    #if callback is needed in later issues, use this: entries.where.not(id: winning_bet.id).each {| bet | bet.lost!}
+    winner = Winner.new(user: winning_bet.user, bet: winning_bet, item: winning_bet.item, batch_count: winning_bet.batch_count, address: winning_bet.user.addresses.find_by(is_default: true))
+    winner.save!
   end
 
   def cancel_bet

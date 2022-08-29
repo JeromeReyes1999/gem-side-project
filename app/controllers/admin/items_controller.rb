@@ -1,5 +1,5 @@
 class Admin::ItemsController  < AdminController
-  before_action :set_item, only: [:edit, :update, :destroy, :transition]
+  before_action :set_item, only: [:edit, :update, :destroy, :transition, :draw]
 
   def index
     @items = Item.includes(:category)
@@ -18,6 +18,15 @@ class Admin::ItemsController  < AdminController
     end
   end
 
+  def draw
+    if @item.end!
+      flash[:not] = 'We got a new winner'
+    else
+      flash[:alert] = 'transition failed!'
+    end
+    redirect_to request.referer
+  end
+
   def edit; end
 
   def transition
@@ -25,7 +34,7 @@ class Admin::ItemsController  < AdminController
       begin
         @item.send(params[:event].concat('!'))
       rescue
-        flash[:alert] = @item.errors.full_messages.join(', ').presence || 'transition failed!'
+        flash[:alert] = @item.errors.full_messages.join(', ').presence || 'Transaction failed!'
       end
     end
     redirect_to admin_items_path

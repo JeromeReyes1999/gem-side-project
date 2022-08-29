@@ -9,8 +9,13 @@ class Users::LotteryController < ApplicationController
   end
 
   def show
-    @bet = Bet.new
-    @user_bets = @item.bets.where(user: current_user).where(batch_count: @item.batch_count)
+    begin
+      Item.active.starting.find(params[:id])
+      @bet = Bet.new
+      @user_bets = @item.bets.where(user: current_user).where(batch_count: @item.batch_count)
+    rescue ActiveRecord::RecordNotFound
+      render file: "#{Rails.root}/public/404.html", layout: false, status: 404
+    end
   end
 
   def create

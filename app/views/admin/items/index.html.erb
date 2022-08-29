@@ -33,8 +33,11 @@
             <td><%= item.offline_at %></td>
             <td><%= item.start_at %></td>
             <td class="text-center align-middle">
-              <div class="d-block " style="white-space:nowrap;">
-                <% item.aasm.events.map(&:name).each do |transition|%>
+              <div class="d-block" style="white-space:nowrap;">
+                <%= link_to 'Draw Now', admin_item_draw_path(item), method: :put, class: 'btn btn-info d-block', data: { disable_with: "Please wait...",  confirm: 'Are you sure?'} if item.may_end? && item.minimum_bets_reached?%>
+              </div>
+              <div class="d-block mt-3" style="white-space:nowrap;">
+                <% item.aasm.events(reject: :end).map(&:name).each do |transition|%>
                   <%= link_to transition.to_s.humanize, admin_item_transition_path(item, transition), method: :put, class: 'btn btn-primary d-inline', data: { disable_with: "Please wait...",  confirm: 'Are you sure?'}%>
                 <% end %>
               </div>
