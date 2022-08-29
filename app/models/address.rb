@@ -17,7 +17,7 @@ class Address < ApplicationRecord
   before_create :make_first_entry_default
   before_destroy :prevent_default_destroy
   after_commit :allow_one_default_address
-  
+
   validate :limit_address, on: :create
   has_many :winners
 
@@ -31,9 +31,7 @@ class Address < ApplicationRecord
   end
 
   def make_first_entry_default
-    unless user.addresses.present?
-      self.is_default = true
-    end
+    self.is_default = !user.addresses.present?
   end
 
   def allow_one_default_address

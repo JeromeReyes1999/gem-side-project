@@ -1,10 +1,15 @@
 <!--Page-->
-<div class="container" style="margin-top: 100px; height: 150vh">
-  <div class=" w-25" >
-      <%= link_to "Back", admin_items_path, class: 'btn btn-primary form-control'%>
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <%= link_to "❮ Back", admin_items_path, class: 'btn btn-sm btn-outline-primary d-inline-block '%>
+       <h5 class="d-inline-block align-middle mx-2 my-1">Create Item</h5>
+     </div>
+    <div class="card-body">
+    <%= form_for @item, url: admin_items_path(@item), method: :post do |f| %>
+      <%= render partial: 'form', locals: {f: f, item: @item} %>
+      <%= f.submit "Create", class: 'border btn btn-primary form-control mt-3' %>
+    <% end %>
+    </div>
   </div>
-  <%= form_for @item, url: admin_items_path(@item), method: :post do |f| %>
-    <%= render partial: 'form', locals: {f: f, item: @item} %>
-    <%= f.submit "Create", class: 'border btn btn-primary form-control' %>
-  <% end %>
 </div>

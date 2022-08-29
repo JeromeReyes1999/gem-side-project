@@ -25,7 +25,7 @@ class Item < ApplicationRecord
     state :pending, initial: true
     state :starting, :paused, :ended, :cancelled
 
-    event :start do
+    event :start, error: :add_error do
       transitions from: [:pending, :ended, :cancelled], to: :starting, after: :set_batch, guards: [:quantity_positive?, :offline_at_future?, :active?]
       transitions from: :paused, to: :starting
     end
@@ -57,6 +57,13 @@ class Item < ApplicationRecord
 
   def quantity_positive?
     quantity > 0
+  end
+
+  def add_error
+    errors.add(:base, 'The item is currently offline') unless offline_at_future?
+    errors.add(:base, 'No item left') unless quantity_positive?
+    errors.add(:base, 'The item is inactive') unless active?
+    return false
   end
 
   def offline_at_future?

@@ -2,6 +2,8 @@ class Users::InvitePeopleController < ApplicationController
   before_action :set_url
   before_action :generate_qr_code
 
+  def invite_page; end
+
   private
 
   def set_url

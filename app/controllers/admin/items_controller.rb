@@ -1,5 +1,5 @@
 class Admin::ItemsController  < AdminController
-  before_action :set_items, only: [:edit, :update, :destroy]
+  before_action :set_item, only: [:edit, :update, :destroy, :transition]
 
   def index
     @items = Item.includes(:category)
@@ -19,6 +19,17 @@ class Admin::ItemsController  < AdminController
   end
 
   def edit; end
+
+  def transition
+    if Item.aasm.events.map(&:name).include? params[:event].to_sym
+      begin
+        @item.send(params[:event].concat('!'))
+      rescue
+        flash[:alert] = @item.errors.full_messages.join(', ').presence || 'transition failed!'
+      end
+    end
+    redirect_to admin_items_path
+  end
 
   def update
     if @item.update(item_params)
@@ -41,10 +52,10 @@ class Admin::ItemsController  < AdminController
   private
 
   def item_params
-    params.require(:item).permit( :image, :name, :quantity,:minimum_bets, :online_at, :offline_at, :start_at, :category_id)
+    params.require(:item).permit( :image, :name, :quantity,:minimum_bets, :online_at, :offline_at, :start_at, :category_id, :status)
   end
 
-  def set_items
-    @item = Item.find(params[:id])
+  def set_item
+    @item = Item.find(params[:item_id] || params[:id])
   end
 end
