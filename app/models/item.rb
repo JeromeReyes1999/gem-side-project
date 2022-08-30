@@ -1,9 +1,8 @@
 class Item < ApplicationRecord
   validates :image, :name, :quantity, :minimum_bets, :online_at, :offline_at, :start_at, presence: true
-  validates :quantity, numericality: { greater_than: 0 }
+  validates :quantity, numericality: { greater_than_or_equal_to: 0 }
   validates :minimum_bets, numericality: { greater_than: 0 }
   enum status: [:active, :inactive]
-
   belongs_to :category
   has_many :bets
   has_many :winners
@@ -25,7 +24,7 @@ class Item < ApplicationRecord
     state :pending, initial: true
     state :starting, :paused, :ended, :cancelled
 
-    event :start, error: :add_error do
+    event :start do
       transitions from: [:pending, :ended, :cancelled], to: :starting, after: :set_batch, guards: [:quantity_positive?, :offline_at_future?, :active?]
       transitions from: :paused, to: :starting
     end
@@ -62,25 +61,28 @@ class Item < ApplicationRecord
   end
 
   def cancel_bet
-    bets.where(batch_count: batch_count).each {| bet | bet.cancel!}
+    bets.where(batch_count: batch_count).where.not(state: :cancelled).each {| bet | bet.cancel!}
   end
 
   def set_batch
-    update_columns(quantity: self.quantity - 1, batch_count: self.batch_count + 1)
+    update(quantity: quantity - 1, batch_count: batch_count + 1)
   end
 
   def quantity_positive?
-    quantity > 0
-  end
-
-  def add_error
-    errors.add(:base, 'The item is currently offline') unless offline_at_future?
-    errors.add(:base, 'No item left') unless quantity_positive?
-    errors.add(:base, 'The item is inactive') unless active?
-    return false
+    return true if quantity > 0
+    errors.add(:base, 'No item left')
+    false
   end
 
   def offline_at_future?
-    offline_at > Time.now
+    return true if offline_at > Time.now
+    errors.add(:base, 'The item is currently offline')
+    false
+  end
+
+  def active?
+    return true if self.status == 'active'
+    errors.add(:base, 'The item is inactive')
+    false
   end
 end

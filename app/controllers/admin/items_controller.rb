@@ -20,11 +20,11 @@ class Admin::ItemsController  < AdminController
 
   def draw
     if @item.end!
-      flash[:not] = 'We got a new winner'
+      flash[:notice] = 'a winner has been chosen'
     else
-      flash[:alert] = 'transition failed!'
+      flash[:alert] = @item.errors.full_messages.join(', ')
     end
-    redirect_to request.referer
+    redirect_to request.referrer
   end
 
   def edit; end
@@ -33,8 +33,8 @@ class Admin::ItemsController  < AdminController
     if Item.aasm.events.map(&:name).include? params[:event].to_sym
       begin
         @item.send(params[:event].concat('!'))
-      rescue
-        flash[:alert] = @item.errors.full_messages.join(', ').presence || 'Transaction failed!'
+      rescue => e
+        flash[:alert] = @item.errors.full_messages.join(', ').presence || 'transition failed'
       end
     end
     redirect_to admin_items_path

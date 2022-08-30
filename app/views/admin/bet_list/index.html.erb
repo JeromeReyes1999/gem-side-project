@@ -64,7 +64,7 @@
           <td><%= bet.state %></td>
           <td><%= bet.created_at %></td>
           <td>
-            <%= link_to 'Cancel', admin_bet_list_cancel_path(bet), method: :put, class: 'btn btn-warning', data: { disable_with: "Please wait...",  confirm: 'Are you sure?'} if bet.state == 'betting' %>
+            <%= link_to 'Cancel', admin_bet_list_cancel_path(bet), method: :put, class: 'btn btn-warning', data: { disable_with: "Please wait...",  confirm: 'Are you sure?'} if bet.betting? %>
           </td>
         </tr>
       <% end %>

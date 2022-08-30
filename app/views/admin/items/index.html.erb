@@ -12,6 +12,7 @@
         <th scope="col">Minimum bets</th>
         <th scope="col">State</th>
         <th scope="col">Status</th>
+        <th scope="col">Batch Count</th>
         <th scope="col">Online at</th>
         <th scope="col">Offline at</th>
         <th scope="col">Start at</th>
@@ -29,21 +30,28 @@
             <td><%= item.minimum_bets %></td>
             <td><%= item.state %></td>
             <td><%= item.status %></td>
+            <td><%= item.batch_count %></td>
             <td><%= item.online_at %></td>
             <td><%= item.offline_at %></td>
             <td><%= item.start_at %></td>
             <td class="text-center align-middle">
+              <%if item.may_end?%>
+                <div class="d-block mb-3" style="white-space:nowrap;">
+                  <%= link_to 'Draw Now', admin_item_draw_path(item), method: :put, class: 'btn btn-info d-block', data: { disable_with: "Please wait...",  confirm: 'Are you sure?'}%>
+                </div>
+              <% end %>
               <div class="d-block" style="white-space:nowrap;">
-                <%= link_to 'Draw Now', admin_item_draw_path(item), method: :put, class: 'btn btn-info d-block', data: { disable_with: "Please wait...",  confirm: 'Are you sure?'} if item.may_end? && item.minimum_bets_reached?%>
+                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                  <% item.aasm.events(reject: :end).map(&:name).each do |transition|%>
+                    <%= link_to transition.to_s.humanize, admin_item_transition_path(item, transition), method: :put, class: 'btn btn-primary d-inline', style:"border: 1px solid #0000E7;", data: { disable_with: "Please wait...",  confirm: 'Are you sure?'}%>
+                  <% end %>
+                </div>
               </div>
               <div class="d-block mt-3" style="white-space:nowrap;">
-                <% item.aasm.events(reject: :end).map(&:name).each do |transition|%>
-                  <%= link_to transition.to_s.humanize, admin_item_transition_path(item, transition), method: :put, class: 'btn btn-primary d-inline', data: { disable_with: "Please wait...",  confirm: 'Are you sure?'}%>
-                <% end %>
-              </div>
-              <div class="d-block mt-3" style="white-space:nowrap;">
-                <%= link_to "edit", edit_admin_item_path(item), class: 'btn btn-warning'%>
-                <%= link_to "Delete", admin_item_path(item), method: :delete, class:'btn btn-danger'%>
+                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                  <%= link_to "edit", edit_admin_item_path(item), class: 'btn btn-warning'%>
+                  <%= link_to "Delete", admin_item_path(item), method: :delete, class:'btn btn-danger'%>
+                </div>
               </div>
             </td>
           </tr>
