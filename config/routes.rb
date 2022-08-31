@@ -21,11 +21,21 @@ Rails.application.routes.draw do
     namespace :admin, path: '' do
       devise_for :users, controllers: { sessions: 'admin/sessions'}
       resources :client_list, only: :index
-      resources :winners, only: :index
-      get 'transition', to: 'winners#transition'
-      resources :items, except: :show
+      resources :winners, only: :index do
+        put 'transition/:event', as: :transition, to: 'winners#transition'
+      end
+
+      resources :items, except: :show do
+        put 'transition/:event', as: :transition, to: 'items#transition'
+        put 'draw', to: 'items#draw'
+      end
+
       resources :categories, except: :show
-      resources :bet_list,  only: :index
+
+      resources :bet_list,  only: :index do
+        put 'cancel', to: 'bet_list#cancel'
+      end
+
       root to: 'dashboard#index'
     end
   end

@@ -1,28 +1,32 @@
-<table class="table table-striped table-hover">
-  <thead>
-  <tr>
-    <th scope="col">Parent Email</th>
-    <th scope="col">Email</th>
-    <th scope="col">Total deposit</th>
-    <th scope="col">Member Total Deposits</th>
-    <th scope="col">Coins</th>
-    <th scope="col">Total used coins</th>
-    <th scope="col">Children members</th>
-    <th scope="col">Phone number</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% @users.each do |user| %>
-    <tr>
-      <td><%= user.parent&.email %></td>
-      <td><%= user.email %></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td><%= user.children_members %></td>
-      <td><%= user.phone %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+<div class="card mt-4">
+  <div class="card-body ">
+    <table class="table table-striped table-hover">
+      <thead>
+      <tr>
+        <th scope="col">Parent Email</th>
+        <th scope="col">Email</th>
+        <th scope="col">Total deposit</th>
+        <th scope="col">Member Total Deposits</th>
+        <th scope="col">Coins</th>
+        <th scope="col">Total used coins</th>
+        <th scope="col">Children members</th>
+        <th scope="col">Phone number</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.parent&.email %></td>
+          <td><%= user.email %></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td><%= user.children_members %></td>
+          <td><%= user.phone %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

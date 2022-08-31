@@ -52,6 +52,7 @@
         <th scope="col">User email</th>
         <th scope="col">State</th>
         <th scope="col">Created_at</th>
+        <th scope="col">Action</th>
       </tr>
       </thead>
       <tbody>
@@ -62,6 +63,9 @@
           <td><%= bet.user.email %></td>
           <td><%= bet.state %></td>
           <td><%= bet.created_at %></td>
+          <td>
+            <%= link_to 'Cancel', admin_bet_list_cancel_path(bet), method: :put, class: 'btn btn-warning', data: { disable_with: "Please wait...",  confirm: 'Are you sure?'} if bet.betting? %>
+          </td>
         </tr>
       <% end %>
       <%unless @bets.present?%>

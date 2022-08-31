@@ -9,8 +9,15 @@ class Admin::WinnersController < AdminController
     end
 
     def transition
-      winner = Winner.find(params[:id])
-      winner.send(params[:event].concat('!'))
+      winner = Winner.find(params[:winner_id])
+      if Winner.aasm.events.map(&:name).include? params[:event].to_sym
+        begin
+          winner.send(params[:event].concat('!'))
+        rescue
+          flash[:alert] = "transaction failed"
+        end
+      end
       redirect_to request.referrer
     end
+
 end

@@ -1,9 +1,8 @@
 class Item < ApplicationRecord
   validates :image, :name, :quantity, :minimum_bets, :online_at, :offline_at, :start_at, presence: true
-  validates :quantity, numericality: { greater_than: 0 }
+  validates :quantity, numericality: { greater_than_or_equal_to: 0 }
   validates :minimum_bets, numericality: { greater_than: 0 }
   enum status: [:active, :inactive]
-
   belongs_to :category
   has_many :bets
   has_many :winners
@@ -35,7 +34,7 @@ class Item < ApplicationRecord
     end
 
     event :end do
-      transitions from: :starting, to: :ended
+      transitions from: [:starting, :paused], to: :ended, after: :draw_winner, guard: :minimum_bets_reached?
     end
 
     event :cancel, after: [:cancel_bet, :return_item]  do
@@ -47,19 +46,43 @@ class Item < ApplicationRecord
     update(quantity: quantity + 1)
   end
 
+  def minimum_bets_reached?
+    bets.where(batch_count: batch_count).count >= minimum_bets
+  end
+
+  def draw_winner
+    entries = bets.where(batch_count: batch_count).where.not(state: :cancelled)
+    winning_bet = entries.sample
+    winning_bet.win!
+    entries.where.not(id: winning_bet.id).update_all(state: :lost)
+    #if callback is needed in later issues, use this: entries.where.not(id: winning_bet.id).each {| bet | bet.lost!}
+    winner = Winner.new(user: winning_bet.user, bet: winning_bet, item: winning_bet.item, batch_count: winning_bet.batch_count, address: winning_bet.user.addresses.find_by(is_default: true))
+    winner.save!
+  end
+
   def cancel_bet
-    bets.where(batch_count: batch_count).each {| bet | bet.cancel!}
+    bets.where(batch_count: batch_count).where.not(state: :cancelled).each {| bet | bet.cancel!}
   end
 
   def set_batch
-    update_columns(quantity: self.quantity - 1, batch_count: self.batch_count + 1)
+    update(quantity: quantity - 1, batch_count: batch_count + 1)
   end
 
   def quantity_positive?
-    quantity > 0
+    return true if quantity > 0
+    errors.add(:base, 'No item left')
+    false
   end
 
   def offline_at_future?
-    offline_at > Time.now
+    return true if offline_at > Time.now
+    errors.add(:base, 'The item is currently offline')
+    false
+  end
+
+  def active?
+    return true if self.status == 'active'
+    errors.add(:base, 'The item is inactive')
+    false
   end
 end

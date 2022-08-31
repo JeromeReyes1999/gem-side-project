@@ -13,7 +13,7 @@
             </div>
             <div class="col-4">
               <%= label_tag :state%>
-              <%= select_tag :state, options_for_select(Winner.aasm.states.map(&:name), params[:state]), { prompt: 'select state', class:"form-control"}%>
+              <%= select_tag :state, options_for_select(Winner.aasm.states.map{|event|[event.name.to_s.humanize, event.name]}, params[:state]), { prompt: 'select state', class:"form-control"}%>
             </div>
           </div>
           <div class="row mt-2">
@@ -59,11 +59,11 @@
           <td><%= winner.bet.serial_number %></td>
           <td><%= winner.batch_count %></td>
           <td><%= winner.user.email %></td>
-          <td><%= winner.state %></td>
+          <td><%= winner.state.humanize %></td>
           <td><%= winner.created_at %></td>
           <td>
             <% winner.aasm.events(reject: [:claim, :share]).map(&:name).each do |transition|%>
-              <%= button_to transition, admin_transition_path, params:{id: winner, event: transition }, method: :get, class: 'btn btn-warning', data: { disable_with: "Please wait...",  confirm: 'Are you sure?'}%>
+              <%= link_to transition.to_s.humanize, admin_winner_transition_path(winner, transition), method: :put, class: 'btn btn-warning', data: { disable_with: "Please wait...",  confirm: 'Are you sure?'}%>
             <% end %>
           </td>
         </tr>

@@ -23,11 +23,10 @@ class Bet < ApplicationRecord
   end
 
   def refund
-    self.user.update(coins: user.coins-1)
+    self.user.update(coins: user.coins+1)
   end
 
   def generate_serial_number
-    # fix code, for testing
   ActiveRecord::Base.connection.execute("UPDATE `bets` SET `bets`.`serial_number` = CONCAT(DATE_FORMAT(CONVERT_TZ(bets.created_at, '+00:00', '+8:00'), '%y%m%d'),'-',#{item.id},'-',#{item.batch_count},'-',
                                                   (SELECT LPAD(count(*), 4, 0)
                                                    FROM `bets` where `bets`.`batch_count` = #{item.batch_count} AND `bets`.`item_id` = #{item.id}))

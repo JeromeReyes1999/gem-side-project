@@ -1,14 +1,21 @@
-<%= link_to 'back', admin_categories_path, class:'btn btn-danger'%>
-
-<%= render partial: 'shared/errors', locals: { model: @category} %>
-
-<%= form_for @category, url: admin_categories_path(@category), method: :post do |f| %>
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name, class: 'form-control' %>
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <%= link_to "❮ Back", admin_categories_path, class: 'btn btn-sm btn-outline-primary d-inline-block '%>
+       <h5 class="d-inline-block align-middle mx-2 my-1">New Category</h5>
+     </div>
+    <div class="card-body">
+      <%= form_for @category, url: admin_categories_path(@category), method: :post do |f| %>
+        <%= content_tag :p, @category.errors.full_messages_for(:base).join(', '), class: 'text-danger' if @category.errors.has_key?(:base) %>
+        <div class="field">
+          <%= f.label :name %>
+          <%= f.text_field :name, class: 'form-control' %>
+          <%= content_tag :p, @category.errors.full_messages_for(:name).join(', '), class: 'text-danger' if @category.errors.has_key?(:name) %>
+        </div>
+        <%= f.submit class:'btn btn-primary mt-3'  %>
+      <% end %>
+     </div>
+    </div>
   </div>
-  <%= f.submit class:'btn btn-success my-2'  %>
-
-<% end %>
 
 

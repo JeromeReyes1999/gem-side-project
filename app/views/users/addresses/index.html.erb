@@ -7,10 +7,9 @@
 
   <div class="card w-100" style=" margin-top:10px">
         <div class="card-header">
-              <%= link_to "❮ Back", users_detail_path, class: 'btn btn-sm btn-outline-primary d-inline-block '%>
-              <h5 class="d-inline-block align-middle mx-2 my-1">Address Lists</h5>
+          <%= link_to "❮ Back", users_detail_path, class: 'btn btn-sm btn-outline-primary d-inline-block '%>
+          <h5 class="d-inline-block align-middle mx-2 my-1">Address Lists</h5>
         </div>
-      
 
         <ul class="list-group list-group-flush">
           <% unless @addresses.present?%>

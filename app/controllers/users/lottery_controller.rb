@@ -1,5 +1,5 @@
 class Users::LotteryController < ApplicationController
-  before_action :set_item, only: [:show, :create]
+  before_action :set_item, only: [:create, :show]
   before_action :authenticate_user!, only: :create
 
   def index
@@ -14,51 +14,32 @@ class Users::LotteryController < ApplicationController
   end
 
   def create
-    begin
-      # very slow when coins are larger
-      loop_count = params[:bet][:coins].to_i
-      params[:bet][:coins] = 1
-      params[:bet][:item_id] = @item.id
-      ActiveRecord::Base.transaction do
-        loop_count.times do
-          @bet = Bet.new(bet_params)
-          @bet.user = current_user
-          @bet.batch_count = @item.batch_count
-          @bet.save!
+      begin
+        loop_count = params[:bet][:coins].to_i
+        ActiveRecord::Base.transaction do
+          loop_count.times do
+            @bet = Bet.new(bet_params)
+            @bet.user = current_user
+            @bet.item = @item
+            @bet.coins = 1
+            @bet.batch_count = @item.batch_count
+            @bet.save!
+          end
         end
+        flash[:notice] = "successfully created"
+      rescue ActiveRecord::RecordInvalid => exception
+        flash[:alert] = exception
       end
-      flash[:notice] = "successfully created"
-    rescue ActiveRecord::RecordInvalid => exception
-      flash[:alert] = exception
-    end
-    redirect_to users_lottery_index_path
+      redirect_to users_lottery_index_path
   end
-
-  #for review- 1000x faster but doesn't trigger callbacks
-  # def create
-  #   begin
-  #   ActiveRecord::Base.transaction do
-  #         loop_count = params[:bet][:coins].to_i
-  #         params[:bet][:coins] = 1
-  #         params[:bet][:item_id] = @item.id
-  #         params[:bet][:created_at] = Time.now
-  #         params[:bet][:updated_at] = Time.now
-  #         params[:bet][:batch_count] = @item.batch_count
-  #         params[:bet][:user_id] = current_user.id
-  #         bet_arr = loop_count.times.map{bet_params}
-  #         Bet.insert_all!(bet_arr)
-  #       end
-  #     flash[:notice] = "successfully created"
-  #   rescue ActiveRecord::RecordInvalid => exception
-  #     flash[:alert] = exception
-  #   end
-  #   redirect_to users_lottery_index_path
-  # end
 
   private
 
   def set_item
-    @item = Item.find(params[:id])
+    unless @item = Item.active.starting.find_by_id(params[:id])
+      flash[:alert] = 'Item is either inactive or not existing'
+      redirect_to users_lottery_index_path
+    end
   end
 
   def bet_params
