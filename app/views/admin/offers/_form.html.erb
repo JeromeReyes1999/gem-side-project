@@ -1,0 +1,42 @@
+<style>
+    p {
+        font-size: 12px;
+        margin-bottom: 4px
+    }
+</style>
+
+<div class="field">
+  <%= f.label :image %>
+  <%= f.file_field :image, class: 'form-control', onchange:"update_image_preview(this)" %>
+  <%= content_tag :p, offer.errors.full_messages_for(:image).join(', '), class: 'text-danger m-1' if offer.errors.has_key?(:image) %>
+</div>
+
+<div class="field">
+  <%= f.label :name %>
+  <%= f.text_field :name, class: 'form-control' %>
+  <%= content_tag :p, offer.errors.full_messages_for(:name).join(', '), class: 'text-danger m-1' if offer.errors.has_key?(:name) %>
+</div>
+
+<div class="field">
+  <%= f.label :status %>
+  <%= f.select(:status, Offer.statuses.keys.map { |key| [key.humanize, key] }, { :prompt => 'status' }, class: 'form-control  form-control-') %>
+  <%= content_tag :p, offer.errors.full_messages_for(:status).join(', '), class: 'text-danger m-1' if offer.errors.has_key?(:status) %>
+</div>
+
+<div class="field">
+  <%= f.label :genre %>
+  <%= f.select(:genre, Offer.genres.keys.map { |key| [key.humanize, key] }, { :prompt => 'genre' }, class: 'form-control  form-control') %>
+  <%= content_tag :p, offer.errors.full_messages_for(:genre).join(', '), class: 'text-danger m-1' if offer.errors.has_key?(:genre) %>
+</div>
+
+<div class="field">
+  <%= f.label :amount %>
+  <%= f.number_field  :amount , class: 'form-control' %>
+  <%= content_tag :p, offer.errors.full_messages_for(:amount).join(', '), class: 'text-danger m-1' if offer.errors.has_key?(:amount) %>
+</div>
+
+<div class="field">
+  <%= f.label :coins %>
+  <%= f.number_field  :coins , class: 'form-control' %>
+  <%= content_tag :p, offer.errors.full_messages_for(:coins).join(', '), class: 'text-danger m-1' if offer.errors.has_key?(:coins) %>
+</div>

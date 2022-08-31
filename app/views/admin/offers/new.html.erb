@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <%= link_to "❮ Back", admin_offers_path, class: 'btn btn-sm btn-outline-primary d-inline-block '%>
+      <h5 class="d-inline-block align-middle mx-2 my-1">Create Offer</h5>
+    </div>
+    <div class="card-body">
+      <%= form_for @offer, url: admin_offers_path, method: :post do |f| %>
+        <%= render partial: 'form', locals: {f: f, offer: @offer} %>
+        <%= f.submit "Create", class: 'border btn btn-primary form-control mt-3' %>
+      <% end %>
+    </div>
+  </div>
+</div>

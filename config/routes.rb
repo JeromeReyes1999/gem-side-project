@@ -30,6 +30,8 @@ Rails.application.routes.draw do
         put 'draw', to: 'items#draw'
       end
 
+      resources :offers, except: :show
+
       resources :categories, except: :show
 
       resources :bet_list,  only: :index do

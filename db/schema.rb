@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_25_085601) do
+ActiveRecord::Schema.define(version: 2022_08_30_093543) do
 
   create_table "addresses", charset: "utf8mb4", force: :cascade do |t|
     t.integer "genre"
@@ -87,6 +87,17 @@ ActiveRecord::Schema.define(version: 2022_08_25_085601) do
     t.datetime "deleted_at"
     t.bigint "category_id"
     t.index ["category_id"], name: "index_items_on_category_id"
+  end
+
+  create_table "offers", charset: "utf8mb4", force: :cascade do |t|
+    t.string "image"
+    t.string "name"
+    t.integer "genre"
+    t.integer "status"
+    t.decimal "amount", precision: 10, default: "0"
+    t.integer "coins", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "provinces", charset: "utf8mb4", force: :cascade do |t|
