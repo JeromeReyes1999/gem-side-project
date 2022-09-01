@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_30_093543) do
+ActiveRecord::Schema.define(version: 2022_09_01_032451) do
 
   create_table "addresses", charset: "utf8mb4", force: :cascade do |t|
     t.integer "genre"
@@ -98,6 +98,21 @@ ActiveRecord::Schema.define(version: 2022_08_30_093543) do
     t.integer "coins", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "orders", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "offer_id"
+    t.string "serial_number"
+    t.string "state"
+    t.string "remarks"
+    t.decimal "amount", precision: 10, default: "0"
+    t.integer "coin", default: 0
+    t.integer "genre"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["offer_id"], name: "index_orders_on_offer_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "provinces", charset: "utf8mb4", force: :cascade do |t|

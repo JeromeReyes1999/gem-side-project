@@ -5,6 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   validates :phone, phone: {allow_blank: true}
 
+  has_many :order
+
   mount_uploader :image, ImageUploader
   has_many :winners
   has_many :addresses
