@@ -4,8 +4,8 @@ class Order < ApplicationRecord
   belongs_to :user
   belongs_to :offer, optional: true
 
-  validates :amount, numericality: { greater_than: 0 }, unless: :deposit?
-  validates :amount, numericality: { greater_than_or_equal: 0 }, if: :deposit?
+  validates :amount, numericality: { greater_than: 0 }, if: :deposit?
+  validates :amount, numericality: { greater_than_or_equal: 0 }, unless: :deposit?
 
   after_create :generate_serial_number
 
