@@ -25,7 +25,7 @@ class Item < ApplicationRecord
     state :starting, :paused, :ended, :cancelled
 
     event :start do
-      transitions from: [:pending, :ended, :cancelled], to: :starting, after: :set_batch, guards: [:quantity_positive?, :offline_at_future?, :active?]
+      transitions from: [:pending, :ended, :cancelled], to: :starting, after: :set_batch, guards: [:quantity_positive?, :offline_at_future?, :status_active?]
       transitions from: :paused, to: :starting
     end
 
@@ -51,12 +51,11 @@ class Item < ApplicationRecord
   end
 
   def draw_winner
-    entries = bets.where(batch_count: batch_count).where.not(state: :cancelled)
+    entries = bets.batch_active_bets(batch_count)
     winning_bet = entries.sample
     winning_bet.win!
-    entries.where.not(id: winning_bet.id).update_all(state: :lost)
-    #if callback is needed in later issues, use this: entries.where.not(id: winning_bet.id).each {| bet | bet.lost!}
-    winner = Winner.new(user: winning_bet.user, bet: winning_bet, item: winning_bet.item, batch_count: winning_bet.batch_count, address: winning_bet.user.addresses.find_by(is_default: true))
+    entries.where.not(id: winning_bet.id).each {| bet | bet.lost!}
+    winner = Winner.new(user: winning_bet.user, bet: winning_bet, item: winning_bet.item, batch_count: winning_bet.batch_count)
     winner.save!
   end
 
@@ -80,7 +79,7 @@ class Item < ApplicationRecord
     false
   end
 
-  def active?
+  def status_active?
     return true if self.status == 'active'
     errors.add(:base, 'The item is inactive')
     false

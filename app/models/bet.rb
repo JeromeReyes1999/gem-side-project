@@ -4,6 +4,7 @@ class Bet < ApplicationRecord
   belongs_to :item
   after_create :generate_serial_number
   has_many :winners
+  scope :batch_active_bets, -> (batch) {where(batch_count: batch).betting}
 
   include AASM
   aasm column: :state do
