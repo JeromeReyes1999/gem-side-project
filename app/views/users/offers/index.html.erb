@@ -1,0 +1,59 @@
+<%=render "shared/banner"%>
+
+<div class="container mt-2">
+  <div class="row">
+    <% @offers.each do |offer| %>
+      <div class="col-6 col-md-6 col-sm-6 col-lg-6">
+        <div class="card shadow-none border-none mb-2 w-100 overflow-hidden" style="max-height: 350px; height:20vw; min-height: 220px">
+          <div class="overflow-hidden">
+            <%= link_to (image_tag offer.image.url, class:'card-img-top img-responsive' if offer.image?), "#ModalToggle", class:'open_modal', 'data-bs-toggle':"modal", 'data-id':offer.id, 'data-amount':offer.amount, 'data-coins': offer.coins %>
+          </div>
+        </div>
+      </div>
+  <% end %>
+  </div>
+</div>
+
+<div class="modal fade" id="ModalToggle" aria-hidden="true" aria-labelledby="ModalToggleLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body" id="body">
+          ...
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" data-bs-dismiss="modal" id="OrderButton">Order</button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    $(document).on("click", ".open_modal", function () {
+        var OfferId = $(this).data('id');
+        var OfferAmount = $(this).data('amount').toFixed(2);
+        var OfferCoins = $(this).data('coins');
+        $("#body").html(`Do you want to pay <b>Php ${OfferAmount}</b></br>
+                         and get <b>${OfferCoins} coins</b>`);
+        $("#OrderButton").attr('data-offer-id', OfferId);
+    });
+
+    $(document).on("click", "#OrderButton", function () {
+        var OfferId = $(this).data('offer-id');
+        $.ajax({
+            type: 'POST',
+            data: {
+                authenticity_token: $('[name="csrf-token"]')[0].content
+            },
+            url: `/users/offers/${OfferId}/order`,
+            error: function () {
+                location.reload();
+            },
+            success: function () {
+                location.reload();
+            }
+        })
+    });
+</script>
+
+

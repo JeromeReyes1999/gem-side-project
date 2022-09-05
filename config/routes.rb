@@ -7,6 +7,9 @@ Rails.application.routes.draw do
       resource :detail, only: :show
       resources :addresses, except: :show
       resources :lottery,  only: [:create, :show, :index ]
+      resources :offers, only: :index do
+        post 'order', to: 'offers#order'
+      end
 
       get 'invite-people', to: 'invite_people#invite_page'
 
