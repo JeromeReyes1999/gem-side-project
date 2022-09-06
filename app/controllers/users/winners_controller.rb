@@ -6,16 +6,12 @@ class Users::WinnersController < ApplicationController
   def show; end
 
   def update
-    if @winner.claim!
-      if @winner.update(address: @address)
-        flash[:notice] = "Successfully updated!"
-        redirect_to users_addresses_path
-      else
-        render :edit
-      end
+    if @winner.claim! && @winner.update(address: @address)
+      flash[:notice] = "Successfully updated!"
     else
-      render :edit
+      flash[:alert] = "Failed to update!"
     end
+    redirect_to users_detail_path(activities: 'winning')
   end
 
   private
