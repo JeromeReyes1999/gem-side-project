@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="card shadow-none border-none mb-2 w-100 overflow-hidden">
+    <div class="overflow-hidden">
+      <%= image_tag @winner.picture.url, class:'card-img-top img-responsive' if @winner.picture? %>
+    </div>
+    <div class="card-footer flex-column mt-auto">
+      <h6 class="text-start"><%= "#{@winner.user.email[0...2]}***#{@winner.user.email[-2...]}" %></h6>
+      <div>
+          <p><%= @winner.comment %></p>
+      </div>
+    </div>
+  </div>
+  <%= link_to "Show All", users_feedbacks_path, class:"btn btn-primary w-100"%>
+</div>

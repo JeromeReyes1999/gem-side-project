@@ -1,27 +1,34 @@
-<%=render "shared/banner"%>
+<%= render "shared/banner" %>
 
 <section>
   <div class="container overflow-hidden">
-    <h4>Winners Feedback</h4>
+    <h5>Winners Feedback</h5>
     <div class="row">
-      <div class="col-4">
-        <div class="p-3 border bg-light">
-          <img src="" class="d-block w-100" alt="...">
-          <h5 class="text-center">Lorem Ipsum</h5>
+      <% @winners.each do |winner| %>
+        <div class="col-4">
+          <div class="card shadow-none border-none mb-2 w-100 overflow-hidden" style="max-height: 350px; height:20vw; min-height: 220px">
+            <div class="overflow-hidden">
+              <%= link_to (image_tag winner.picture.url, class: 'card-img-top img-responsive' if winner.picture?), users_feedback_path(winner) %>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="col-4">
-        <div class="p-3 border bg-light">
-          <img src="/test/placeholder.jpeg" class="d-block w-100" alt="...">
-          <h5 class="text-center">Lorem Ipsum</h5>
+      <% end %>
+      <% if Winner.published.count > 2 %>
+        <div class="col-4">
+          <a href="<%= users_feedbacks_path %>" class="link-secondary text-decoration-none">
+            <div class="card shadow-none border-none mb-2 w-100 text-center" style="max-height: 350px; height:20vw; min-height: 220px">
+              <div class="my-auto">Show more...</div>
+            </div>
+          </a>
         </div>
-      </div>
-      <div class="col-4">
-        <div class="p-3 border bg-light">
-          <img src="/test/placeholder.jpeg" class="d-block w-100" alt="...">
-          <h5 class="text-center">Lorem Ipsum</h5>
+      <% end %>
+      <% if @winners.blank? %>
+        <div class="col-4">
+          <div class="card shadow-none border-none mb-2 w-100 text-center align-middle" style="max-height: 350px; height:20vw; min-height: 220px">
+            <div class="my-auto text-muted">No feedbacks to show</div>
+          </div>
         </div>
-      </div>
+      <% end %>
     </div>
   </div>
 </section>

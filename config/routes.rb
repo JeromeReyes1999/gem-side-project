@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resource :detail, only: :show
       resources :winners, only: [:show, :update]
       resources :share,  only: [:show, :update]
+      resources :feedbacks,  only: [:show, :index]
       resources :addresses, except: :show
       resources :lottery,  only: [:create, :show, :index ]
       resources :offers, only: :index do

@@ -1,3 +1,5 @@
 class HomeController < ApplicationController
-  def index; end
+  def index
+    @winners = Winner.includes(:user).published.first(2)
+  end
 end

@@ -1,0 +1,29 @@
+<%= render "shared/banner" %>
+
+<div class="container mt-2">
+  <div class="row">
+    <% @winners.each do |winner| %>
+      <a href="<%= users_feedback_path(winner)%>" style="color: inherit; text-decoration: none;">
+        <div class="card shadow-none border-none mb-2 w-100 overflow-hidden" style="max-height: 250px; height:20vw; min-height: 220px">
+          <div class="row">
+            <div class="col-3 overflow-hidden" style="padding-left: 0">
+              <div>
+                <%= image_tag winner.picture.url, class: 'img-responsive w-100' if winner.picture?%>
+              </div>
+            </div>
+            <div class="col">
+              <div class="container align-middle mt-3">
+                <h6 class="text-start"><%= "#{winner.user.email[0...2]}***#{winner.user.email[-2...]}" %></h6>
+                <div>
+                  <p><%= winner.comment %></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    <% end %>
+  </div>
+</div>
+
+
