@@ -1,5 +1,5 @@
-<div class="container">
-  <div class="card m-auto" style="max-width: 900px">
+<div class="container" style="max-width: 900px">
+  <div class="card m-auto" >
     <div class="card-body">
         <div class="row align-middle mb-3">
           <div class="col-5 col-sm-4 col-md-3 col-lg-2">
@@ -30,4 +30,54 @@
 
     </div>
   </div>
+  <div class="my-3">
+    <%= link_to 'Order Records', users_detail_path(activities: 'orders'), data_toggle: "tab", class:"btn btn-primary" %>
+    <%= link_to 'Gacha Records', users_detail_path(activities: 'gacha'), data_toggle: "tab", class:"btn btn-primary" %>
+    <%= link_to 'Winning Records', users_detail_path(activities: 'winning'), data_toggle: "tab", class:"btn btn-primary" %>
+    <%= link_to 'Invite Records', users_detail_path(activities: 'invites'), data_toggle: "tab", class:"btn btn-primary"%>
+  </div>
+
+    <% @orders&.each do |order|%>
+      <div class="card w-100" style=" margin-top:10px">
+        <div class="card-body">
+        <div><b>Serial Number: </b><%=order.serial_number%></div>
+        <div><b>Coin: </b><%=order.coin%></div>
+        <div><b>Amount: </b><%=order.amount%></div>
+        <div><b>State: </b><%=order.state%></div>
+        <div><b>Date Created: </b><%=order.created_at%></div>
+        </div>
+      </div>
+    <% end %>
+
+    <% @bets&.each do |bet|%>
+      <div class="card w-100" style=" margin-top:10px">
+        <div class="card-body">
+          <div><b>Serial Number: </b><%=bet.serial_number%></div>
+          <div><b>Coins: </b><%=bet.coins%></div>
+          <div><b>State: </b><%=bet.state%></div>
+          <div><b>Item Name: </b><%=bet.item.name%></div>
+          <div><b>Date Created: </b><%=bet.created_at%></div>
+        </div>
+      </div>
+    <% end %>
+
+    <% @winners&.each do |winner|%>
+      <div class="card w-100" style=" margin-top:10px">
+        <div class="card-body">
+          <div><b>Serial Number: </b><%=winner.bet.serial_number%></div>
+          <div><b>Item Name: </b><%=winner.item.name%></div>
+          <div><b>Date Created: </b><%=winner.created_at%></div>
+        </div>
+      </div>
+    <% end %>
+
+    <% @invitations&.each do |invitation|%>
+      <div class="card w-100" style=" margin-top:10px">
+        <div class="card-body">
+          <div><b>Username: </b><%=invitation.username%></div>
+          <div><b>Email: </b><%=invitation.email%></div>
+          <div><b>Date Invited: </b><%=invitation.created_at%></div>
+        </div>
+      </div>
+    <% end %>
 </div>
