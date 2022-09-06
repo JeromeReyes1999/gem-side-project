@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <%= link_to "❮ Back", users_detail_path(activities: :winning), class: 'btn btn-sm btn-outline-primary d-inline-block ' %>
+      <h5 class="d-inline-block align-middle mx-2 my-1">Claim Prize</h5>
+    </div>
+    <div class="card-body">
+      <b><%= label_tag :winning_bet %></b>
+      <div class="card w-100" style=" margin-top:10px">
+        <div class="card-body">
+          <div><b>Serial Number: </b><%= @winner.bet.serial_number %></div>
+          <div><b>Item Name: </b><%= @winner.item.name %></div>
+          <div><b>Date Created: </b><%= @winner.created_at %></div>
+        </div>
+      </div>
+      <div class="address mt-3">
+        <%= form_for @winner, url: users_winner_path(@winner), method: :patch do |f| %>
+          <b><%= f.label :select_address %></b>
+          <% current_user.addresses.each do |address| %>
+            <div class="row mt-2">
+              <div class="col d-flex ms-2" style="max-width: 40px">
+                <%= f.radio_button :address, address.id, checked: address.is_default %>
+              </div>
+              <div class="col">
+                <span class="badge rounded-pill bg-warning"> <%= address.genre %></span>
+                <span class="badge rounded-pill bg-primary"><%= :Default if address.is_default %></span>
+                <div>
+                  <div class="fw-bold d-inline" style="display:inline">Name:</div>
+                  <%= address.name %>
+                </div>
+                <div>
+                  <div class="fw-bold d-inline" style="display:inline">Address:</div>
+                  <%= "#{address.street_address}, #{address.barangay.name}, #{address.city.name}, #{address.province.name}, #{address.region.region_name}" %>
+                </div>
+                <div>
+                  <div class="fw-bold d-inline" style="display:inline">Phone number:</div>
+                  <%= address.phone_number %>
+                </div>
+              </div>
+            </div>
+            <hr>
+          <% end %>
+          <%= f.submit "Submit", class: 'border btn btn-primary form-control ' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
