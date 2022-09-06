@@ -28,6 +28,11 @@ Rails.application.routes.draw do
         put 'transition/:event', as: :transition, to: 'winners#transition'
       end
 
+      resources :orders, only: :index do
+        put 'cancel', to: 'orders#cancel'
+        put 'pay', to: 'orders#pay'
+      end
+
       resources :items, except: :show do
         put 'transition/:event', as: :transition, to: 'items#transition'
         put 'draw', to: 'items#draw'
