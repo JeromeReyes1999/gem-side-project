@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     namespace :users do
       resource :detail, only: :show
       resources :winners, only: [:show, :update]
+      resources :share,  only: [:show, :update]
       resources :addresses, except: :show
       resources :lottery,  only: [:create, :show, :index ]
       resources :offers, only: :index do

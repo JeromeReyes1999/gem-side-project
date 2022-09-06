@@ -69,6 +69,7 @@
           <div><b>Date Created: </b><%=winner.created_at%></div>
           <div><b>State: </b><%=winner.state%></div>
           <%= link_to "Claim", users_winner_path(winner), class:'btn btn-warning' if winner.may_claim?%>
+          <%= link_to "Share", users_share_path(winner), class:'btn btn-warning' if winner.may_share?%>
         </div>
       </div>
     <% end %>

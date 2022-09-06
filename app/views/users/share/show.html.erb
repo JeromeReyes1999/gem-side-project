@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <%= link_to "❮ Back", users_detail_path(activities: :winning), class: 'btn btn-sm btn-outline-primary d-inline-block ' %>
+      <h5 class="d-inline-block align-middle mx-2 my-1">Share Feedback</h5>
+    </div>
+    <div class="card-body">
+      <b><%= label_tag :winning_bet %></b>
+      <div class="card w-100" style=" margin-top:10px">
+        <div class="card-body">
+          <div><b>Serial Number: </b><%= @winner.bet.serial_number %></div>
+          <div><b>Item Name: </b><%= @winner.item.name %></div>
+          <div><b>Date Created: </b><%= @winner.created_at %></div>
+        </div>
+      </div>
+      <div class="card mt-4">
+          <div class="card-body">
+            <%= form_for @winner, url: users_share_path(@winner), method: :patch do |f| %>
+              <div class="text-center j">
+                  <img src="" alt='avatar' id="previewImg" class="w-25 my-2 m-auto" style="display:none; object-fit: cover;">
+                <%= image_tag src="https://lh4.googleusercontent.com/PSjX8tDhtVtVjqX_vGV8lICE1_HyiTHJVapXW-B1ZheNQCdabVvK_YBIu0opmVTNyKc=w2400", class:"original w-25 my-2", style:"object-fit: cover"%>
+                  <div class="field">
+                    <%= f.label :picture, "change image", class: "btn btn-dark" %>
+                    <%= f.file_field :picture, class: 'form-control d-none', onchange: "previewFile(this)" %>
+                  </div>
+              </div>
+              <div class="field">
+                <%= f.label :comment %>
+                <%= f.text_area :comment, class: 'form-control form-control-sm' %>
+              </div>
+              <%= f.submit "Share", class: 'border btn btn-primary form-control mt-3' %>
+            <% end %>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+    function previewFile(input) {
+        var file = $("input[type=file]").get(0).files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                $("#previewImg").attr("src", reader.result);
+                $("#previewImg").css('display', 'block');
+                $(".original").css('display', 'none');
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+

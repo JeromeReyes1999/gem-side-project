@@ -5,6 +5,8 @@ class Winner < ApplicationRecord
     belongs_to :admin, class_name: "User", optional: true
     belongs_to :bet
 
+    mount_uploader :picture, ImageUploader
+
     include AASM
     aasm column: :state do
         state :won, initial: true
