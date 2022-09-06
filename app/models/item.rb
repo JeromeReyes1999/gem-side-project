@@ -54,7 +54,7 @@ class Item < ApplicationRecord
     entries = bets.batch_active_bets(batch_count)
     winning_bet = entries.sample
     winning_bet.win!
-    entries.where.not(id: winning_bet.id).each {| bet | bet.lost!}
+    entries.where.not(id: winning_bet.id).each {| bet | bet.lose!}
     winner = Winner.new(user: winning_bet.user, bet: winning_bet, item: winning_bet.item, batch_count: winning_bet.batch_count)
     winner.save!
   end
