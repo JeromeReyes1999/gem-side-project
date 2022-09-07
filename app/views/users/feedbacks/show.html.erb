@@ -4,7 +4,7 @@
       <%= image_tag @winner.picture.url, class:'card-img-top img-responsive' if @winner.picture? %>
     </div>
     <div class="card-footer flex-column mt-auto">
-      <h6 class="text-start"><%= "#{@winner.user.email[0...2]}***#{@winner.user.email[-2...]}" %></h6>
+      <h6 class="text-start"><%= conceal_email(@winner.user.email) %></h6>
       <div>
           <p><%= @winner.comment %></p>
       </div>

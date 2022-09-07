@@ -13,7 +13,7 @@
             </div>
             <div class="col">
               <div class="container align-middle mt-3">
-                <h6 class="text-start"><%= "#{winner.user.email[0...2]}***#{winner.user.email[-2...]}" %></h6>
+                <h6 class="text-start"><%= conceal_email(winner.user.email)%></h6>
                 <div>
                   <p><%= winner.comment %></p>
                 </div>
