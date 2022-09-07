@@ -14,6 +14,10 @@ Rails.application.routes.draw do
         post 'order', to: 'offers#order'
       end
 
+      scope :orders, as: :orders do
+        put 'cancel/:id', as: :cancel, to: 'orders#cancel'
+      end
+
       get 'invite-people', to: 'invite_people#invite_page'
 
       # dependent select
