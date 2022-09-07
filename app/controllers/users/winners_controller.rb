@@ -6,21 +6,21 @@ class Users::WinnersController < ApplicationController
   def show; end
 
   def update
-    if @winner.claim! && @winner.update(address: @address)
+    if @winner.update(address: @address) && @winner.claim!
       flash[:notice] = "Successfully updated!"
+      redirect_to users_detail_path(activities: 'winning')
     else
-      flash[:alert] = "Failed to update!"
+      render :show
     end
-    redirect_to users_detail_path(activities: 'winning')
   end
 
   private
 
   def set_winner
-    @winner = Winner.where(user: current_user).find(params[:id])
+    @winner = Winner.where(user: current_user).won.find(params[:id])
   end
 
   def set_address
-    @address = Address.where(user: current_user).find(params[:winner][:address])
+    @address = current_user.addresses.find(params[:winner][:address])
   end
 end

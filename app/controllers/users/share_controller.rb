@@ -5,18 +5,18 @@ class Users::ShareController < ApplicationController
   def show; end
 
   def update
-    if @winner.share! && @winner.update(winner_params)
+    if @winner.update(winner_params) && @winner.share!
       flash[:notice] = "Successfully updated!"
+      redirect_to users_detail_path(activities: 'winning')
     else
-      flash[:alert] = "failed to share!"
+      render :show
     end
-    redirect_to users_detail_path(activities: 'winning')
   end
 
   private
 
   def set_winner
-    @winner = Winner.where(user: current_user).find(params[:id])
+    @winner = Winner.where(user: current_user).delivered.find(params[:id])
   end
 
   def winner_params

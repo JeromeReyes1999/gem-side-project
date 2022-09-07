@@ -22,11 +22,13 @@
                   <div class="field">
                     <%= f.label :picture, "change image", class: "btn btn-dark" %>
                     <%= f.file_field :picture, class: 'form-control d-none', onchange: "previewFile(this)" %>
+                    <%= content_tag :p, @winner.errors.full_messages_for(:picture).join(', '), class: 'text-danger' if @winner.errors.has_key?(:picture) %>
                   </div>
               </div>
               <div class="field">
                 <%= f.label :comment %>
                 <%= f.text_area :comment, class: 'form-control form-control-sm' %>
+                <%= content_tag :p, @winner.errors.full_messages_for(:comment).join(', '), class: 'text-danger' if @winner.errors.has_key?(:comment) %>
               </div>
               <%= f.submit "Share", class: 'border btn btn-primary form-control mt-3' %>
             <% end %>

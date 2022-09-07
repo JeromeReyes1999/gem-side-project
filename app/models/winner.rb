@@ -1,4 +1,5 @@
 class Winner < ApplicationRecord
+    validates :picture, :comment, presence: true, if: :shared?
     belongs_to :item
     belongs_to :user
     belongs_to :address, optional: true
