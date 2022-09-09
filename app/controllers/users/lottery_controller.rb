@@ -14,6 +14,7 @@ class Users::LotteryController < ApplicationController
   end
 
   def create
+    if current_user.coins >= params[:bet][:coins].to_i
       begin
         loop_count = params[:bet][:coins].to_i
         ActiveRecord::Base.transaction do
@@ -30,7 +31,10 @@ class Users::LotteryController < ApplicationController
       rescue ActiveRecord::RecordInvalid => exception
         flash[:alert] = exception
       end
-      redirect_to users_lottery_index_path
+    else
+      flash[:alert] = 'Not enough coins'
+    end
+    redirect_to users_lottery_index_path
   end
 
   private
