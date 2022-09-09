@@ -1,10 +1,10 @@
 class Order < ApplicationRecord
   enum genre: [:deposit, :increase, :deduct, :bonus, :share]
-
+  validates :remarks, presence: true, if: :genre_admin_operable?
   belongs_to :user
   belongs_to :offer, optional: true
 
-  validates :amount, numericality: { greater_than_or_equal: 0 }
+  validates :coin, numericality: { greater_than: 0 }
 
   after_create :generate_serial_number
 
@@ -14,16 +14,18 @@ class Order < ApplicationRecord
     state :submitted, :cancelled, :paid
 
     event :submit do
-      transitions from: :pending, to: :submitted
+      transitions from: :pending, to: :submitted, guard: :deposit?
     end
 
     event :cancel do
-      transitions from: [:submitted, :pending], to: :cancelled
-      transitions from: :paid, to: :cancelled, after: :on_cancel_update_user_coin, guard: :coin_less_that_user_coins?
+      transitions from: :submitted, to: :cancelled, guards: [:deposit?, :on_cancel_check_coin], after: [:deduct_total_deposit, :on_cancel_update_user_coin]
+      transitions from: :paid, to: :cancelled, guards: [:genre_admin_operable?,:on_cancel_check_coin], after: :on_cancel_update_user_coin
+      transitions from: :pending, to: :cancelled
     end
 
-    event :pay do
-      transitions from: :submitted, to: :paid, after: :on_pay_update_user_coin
+    event :pay, after: :on_pay_update_user_coin do
+      transitions from: :pending, to: :paid, guards: [:genre_admin_operable?, :on_pay_check_coin]
+      transitions from: :submitted, to: :paid, guard: :deposit?, after: :increase_total_deposit
     end
   end
 
@@ -44,17 +46,31 @@ class Order < ApplicationRecord
   end
 
   def increase_total_deposit
-    user.update(total_deposit: user.total_deposit + amount) if deposit?
+    user.update(total_deposit: user.total_deposit + amount)
   end
 
   def deduct_total_deposit
-    user.update(total_deposit: user.total_deposit - amount) if deposit?
+    user.update(total_deposit: user.total_deposit - amount)
+  end
+
+  def on_cancel_check_coin
+    return true if deduct?
+    coin_less_that_user_coins?
+  end
+
+  def on_pay_check_coin
+    return true unless deduct?
+    coin_less_that_user_coins?
   end
 
   def coin_less_that_user_coins?
-    return true if (user.coins >= coin) && !deduct?
-    errors.add(:base, "You deducted more coins than the user's total coins")
-    false
+     return true if (user.coins >= coin)
+     errors.add(:base, "coins to be deducted should be greater than user's coins")
+     false
+  end
+
+  def genre_admin_operable?
+    [increase?, deduct?, bonus?].any?
   end
 
   def generate_serial_number

@@ -1,5 +1,6 @@
 class Admin::OrdersController < AdminController
-  before_action :set_order, except: :index
+  before_action :set_order, except: [:new, :create, :index]
+  before_action :set_user, only: [:new, :create]
 
   def index
     @orders = Order.includes(:user, :offer)
@@ -34,7 +35,37 @@ class Admin::OrdersController < AdminController
     redirect_to request.referrer
   end
 
+  def new
+    @order = Order.new
+  end
+
+ def create
+    @order = Order.new(order_params)
+    @order.genre = params[:genre]
+    @order.amount = 0
+    @order.user = @user
+    if @order.save
+      if @order.may_pay? && @order.pay!
+        flash[:notice]= 'Successfully Created'
+      else
+        flash[:alert]= @order.errors.full_messages.join(", ")
+        @order.cancel!
+      end
+      redirect_to admin_user_new_order_path(genre: params[:genre])
+    else
+      render :new
+    end
+  end
+
   private
+
+  def order_params
+    params.require(:order).permit(:remarks, :coin)
+  end
+
+  def set_user
+    @user = User.find(params[:user_id])
+  end
 
   def set_order
     @order = Order.find(params[:order_id])

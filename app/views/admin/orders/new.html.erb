@@ -1,0 +1,66 @@
+<style>
+    .input-group-text {
+        width: 100px;
+    }
+</style>
+<div class="row">
+  <div class="col">
+    <div class="card text-center">
+      <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <%= link_to "Increase", admin_user_new_order_path(@user, :increase), class: "nav-link #{'active' if params[:genre] == 'increase'}" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Deduct", admin_user_new_order_path(@user, :deduct), class: "nav-link #{'active' if params[:genre] == 'deduct'}" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Bonus", admin_user_new_order_path(@user, :bonus), class: "nav-link #{'active' if params[:genre] == 'bonus'}" %>
+          </li>
+        </ul>
+      </div>
+      <div class="card-body">
+        <%= form_for @order, url: admin_user_create_order_path(@user, params[:genre]), method: :post do |f| %>
+          <%= content_tag :p, @order.errors.full_messages_for(:base).join(', '), class: 'text-danger' if @order.errors.has_key?(:base) %>
+          <div class="field">
+            <div class="input-group">
+              <span class="input-group-text"><div class="mx-auto">Coins</div></span>
+              <%= f.number_field :coin, class: 'form-control' %>
+            </div>
+          </div>
+          <%= content_tag :p, @order.errors.full_messages_for(:coin).join(', '), class: 'text-danger me-auto' if @order.errors.has_key?(:coin) %>
+          <div class="field">
+            <div class="input-group mt-3">
+              <span class="input-group-text"><div class="mx-auto">Remarks</div></span>
+              <%= f.text_area :remarks, class: 'form-control' %>
+            </div>
+            <%= content_tag :p, @order.errors.full_messages_for(:remarks).join(', '), class: 'text-danger' if @order.errors.has_key?(:remarks) %>
+          </div>
+          <%= f.submit class: 'btn btn-primary mt-3' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <div class="card-body ">
+        <div class="input-group mb-3">
+          <span class="input-group-text"><div class="mx-auto">Username</div></span>
+          <input type="text" value="<%= @user.username %>" class="form-control" readonly=true>
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text"><div class="mx-auto">Email</div></span>
+          <input type="text" value="<%= @user.email %>" class="form-control" readonly=true>
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text"><div class="mx-auto">Promoter</div></span>
+          <input type="text" value="<%= @user.parent.email %>" class="form-control" readonly=true>
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text"><div class="mx-auto">Coins</div></span>
+          <input type="text" value="<%= @user.coins %>" class="form-control" readonly=true>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

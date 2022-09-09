@@ -10,6 +10,9 @@ Rails.application.routes.draw do
       resources :feedbacks,  only: [:show, :index]
       resources :addresses, except: :show
       resources :lottery,  only: [:create, :show, :index ]
+
+      resources :lottery
+
       resources :offers, only: :index do
         post 'order', to: 'offers#order'
       end
@@ -30,7 +33,14 @@ Rails.application.routes.draw do
   constraints(AdminDomainConstraint.new) do
     namespace :admin, path: '' do
       devise_for :users, controllers: { sessions: 'admin/sessions'}
-      resources :client_list, only: :index
+
+      resources :users, only: :index do
+        constraints( lambda {|request|  ['increase', 'deduct', 'bonus'].include? (request.parameters[:genre]) }) do
+          get 'order/:genre/new', as: :new_order, to: 'orders#new'
+          post 'order/:genre', as: :create_order, to: 'orders#create'
+        end
+      end
+
       resources :winners, only: :index do
         put 'transition/:event', as: :transition, to: 'winners#transition'
       end
