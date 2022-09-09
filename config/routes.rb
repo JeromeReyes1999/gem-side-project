@@ -11,10 +11,8 @@ Rails.application.routes.draw do
       resources :addresses, except: :show
       resources :lottery,  only: [:create, :show, :index ]
 
-      resources :lottery
-
       resources :offers, only: :index do
-        post 'order', to: 'offers#order'
+        resources :orders, only: :create
       end
 
       scope :orders, as: :orders do
@@ -51,8 +49,8 @@ Rails.application.routes.draw do
       end
 
       resources :items, except: :show do
-        put 'transition/:event', as: :transition, to: 'items#transition'
-        put 'draw', to: 'items#draw'
+          put 'transition/:event', as: :transition, to: 'items#transition', constraints: lambda {|request| Item.aasm.events.map(&:name).include? (request.parameters[:event]) }
+          put 'draw', to: 'items#draw'
       end
 
       resources :offers, except: :show

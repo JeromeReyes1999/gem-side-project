@@ -30,13 +30,11 @@ class Admin::ItemsController  < AdminController
   def edit; end
 
   def transition
-    if Item.aasm.events.map(&:name).include? params[:event].to_sym
       begin
         @item.send(params[:event].concat('!'))
-      rescue => e
+      rescue
         flash[:alert] = @item.errors.full_messages.join(', ').presence || 'transition failed'
       end
-    end
     redirect_to admin_items_path
   end
 

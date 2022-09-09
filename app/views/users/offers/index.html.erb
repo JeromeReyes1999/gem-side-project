@@ -45,7 +45,7 @@
             data: {
                 authenticity_token: $('[name="csrf-token"]')[0].content
             },
-            url: `/users/offers/${OfferId}/order`,
+            url: `/users/offers/${OfferId}/orders`,
             error: function () {
                 location.reload();
             },

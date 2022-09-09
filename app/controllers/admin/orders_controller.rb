@@ -42,7 +42,6 @@ class Admin::OrdersController < AdminController
  def create
     @order = Order.new(order_params)
     @order.genre = params[:genre]
-    @order.amount = 0
     @order.user = @user
     if @order.save
       if @order.may_pay? && @order.pay!
