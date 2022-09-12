@@ -1,0 +1,49 @@
+<style>
+  p {
+   font-size: 12px;
+   margin-bottom: 4px
+  }
+</style>
+<div class="text-center">
+  <img src="" alt='avatar' id="previewImg" class="w-25 my-2 m-auto" style="display:none; object-fit: cover;">
+  <%= image_tag src="https://lh4.googleusercontent.com/PSjX8tDhtVtVjqX_vGV8lICE1_HyiTHJVapXW-B1ZheNQCdabVvK_YBIu0opmVTNyKc=w2400", class:"original w-25 my-2", style:"object-fit: cover" unless banner.preview?%>
+  <%= image_tag banner.preview.url, alt: 'avatar', class:"original w-25 my-2", style:"object-fit: cover" if banner.preview?%>
+  <div class="field">
+    <%= f.label :preview, "change image", class: "btn btn-dark" %>
+    <%= f.file_field :preview, class: 'form-control d-none', onchange: "previewFile(this)" %>
+    <%= content_tag :p, banner.errors.full_messages_for(:preview).join(', '), class: 'text-danger m-1' if banner.errors.has_key?(:preview) %>
+  </div>
+</div>
+
+<div class="field">
+  <%= f.label :status %>
+  <%= f.select(:status, Banner.statuses.keys.map { |key| [key.humanize, key] }, { :prompt => 'status' }, class: 'form-control  form-control-sm') %>
+  <%= content_tag :p, banner.errors.full_messages_for(:status).join(', '), class: 'text-danger m-1' if banner.errors.has_key?(:status) %>
+</div>
+
+<div class="field">
+  <%= f.label :online_at %>
+  <%= f.datetime_field  :online_at , class: 'form-control' %>
+  <%= content_tag :p, banner.errors.full_messages_for(:online_at).join(', '), class: 'text-danger m-1' if banner.errors.has_key?(:online_at) %>
+</div>
+
+<div class="field">
+  <%= f.label :offline_at %>
+  <%= f.datetime_field  :offline_at , class: 'form-control' %>
+  <%= content_tag :p, banner.errors.full_messages_for(:offline_at).join(', '), class: 'text-danger m-1' if banner.errors.has_key?(:offline_at) %>
+</div>
+
+<script>
+    function previewFile(input) {
+        var file = $("input[type=file]").get(0).files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                $("#previewImg").attr("src", reader.result);
+                $("#previewImg").css('display', 'block');
+                $(".original").css('display', 'none');
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+</script>

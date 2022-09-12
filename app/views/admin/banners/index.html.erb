@@ -1,0 +1,35 @@
+<%= link_to 'New', new_admin_banner_path, class: 'btn btn-primary w-25' %>
+<div class="card mt-4">
+  <div class="card-body ">
+    <table class="table table-striped table-hover">
+      <thead>
+      <th>Preview</th>
+      <th>Status</th>
+      <th>Offline at</th>
+      <th>Online at</th>
+      <th>Action</th>
+      </thead>
+      <tbody>
+      <% @banners.each do |banner| %>
+        <tr>
+          <td style="width: 200px"><%= image_tag banner.preview.url, alt: 'avatar', class:'w-100',style:"object-fit: cover" if banner.preview?%></td>
+          <td><%= banner.status %></th>
+          <td><%= banner.offline_at %></th>
+          <td><%= banner.online_at %></th>
+          <td>
+            <%= link_to 'edit', edit_admin_banner_path(banner), class: 'btn btn-warning' %>
+            <%= link_to "delete", admin_banner_path(banner), method: :delete, data: { confirm: "Are you sure?" }, class: 'btn btn-danger' %>
+          </td>
+        </tr>
+      <% end %>
+      <% unless @banners.present?%>
+        <tr>
+          <td colspan="4" class="text-muted">
+            No news tickers to show
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
