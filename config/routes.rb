@@ -46,6 +46,8 @@ Rails.application.routes.draw do
         put 'pay', to: 'orders#pay'
       end
 
+      resources :invite_list, as: :invites, only: :index
+
       resources :items, except: :show do
           put 'transition/:event', as: :transition, to: 'items#transition', constraints: lambda {|request| Item.aasm.events.map(&:name).include? (request.parameters[:event]) }
           put 'draw', to: 'items#draw'
