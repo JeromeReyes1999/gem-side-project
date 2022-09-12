@@ -32,11 +32,9 @@ Rails.application.routes.draw do
     namespace :admin, path: '' do
       devise_for :users, controllers: { sessions: 'admin/sessions'}
 
-      resources :users, only: :index do
-        constraints( lambda {|request|  ['increase', 'deduct', 'bonus'].include? (request.parameters[:genre]) }) do
+      resources :users, constraints: { genre: /(increase|deduct|bonus)/ }, only: :index do
           get 'order/:genre/new', as: :new_order, to: 'orders#new'
           post 'order/:genre', as: :create_order, to: 'orders#create'
-        end
       end
 
       resources :winners, only: :index do
