@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_many :bets
   has_many :children, class_name: "User", foreign_key: "parent_id"
   belongs_to :parent, class_name: "User", optional: true, counter_cache: :children_members
-
+  has_many :news_tickers, foreign_key: "admin_id"
   def admin?
     role == 'admin'
   end

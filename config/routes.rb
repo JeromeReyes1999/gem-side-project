@@ -46,6 +46,8 @@ Rails.application.routes.draw do
         put 'pay', to: 'orders#pay'
       end
 
+      resources :news_tickers, except: :show
+
       resources :invite_list, as: :invites, only: :index
 
       resources :items, except: :show do

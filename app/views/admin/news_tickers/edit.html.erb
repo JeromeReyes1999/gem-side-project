@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <%= link_to "❮ Back", admin_news_tickers_path, class: 'btn btn-sm btn-outline-primary d-inline-block '%>
+      <h5 class="d-inline-block align-middle mx-2 my-1">Update News Ticker</h5>
+    </div>
+    <div class="card-body">
+      <%= form_for @news_ticker, url: admin_news_ticker_path, method: :patch do |f| %>
+        <%= render partial: 'form', locals: {f: f, news_ticker: @news_ticker} %>
+        <%= f.submit "Update", class: 'border btn btn-primary form-control mt-3' %>
+      <% end %>
+    </div>
+  </div>
+</div>

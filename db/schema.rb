@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_01_032451) do
+ActiveRecord::Schema.define(version: 2022_09_12_074308) do
 
   create_table "addresses", charset: "utf8mb4", force: :cascade do |t|
     t.integer "genre"
@@ -87,6 +87,16 @@ ActiveRecord::Schema.define(version: 2022_09_01_032451) do
     t.datetime "deleted_at"
     t.bigint "category_id"
     t.index ["category_id"], name: "index_items_on_category_id"
+  end
+
+  create_table "news_tickers", charset: "utf8mb4", force: :cascade do |t|
+    t.string "content"
+    t.integer "status"
+    t.bigint "admin_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
+    t.index ["admin_id"], name: "index_news_tickers_on_admin_id"
   end
 
   create_table "offers", charset: "utf8mb4", force: :cascade do |t|
