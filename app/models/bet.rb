@@ -2,7 +2,7 @@ class Bet < ApplicationRecord
   validates :coins, numericality: { greater_than: 0 }
   belongs_to :user
   belongs_to :item
-  after_create :generate_serial_number
+  after_create :generate_serial_number, :deduct_user_coin
   has_many :winners
   scope :batch_active_bets, -> (batch) {where(batch_count: batch).betting}
 
@@ -24,7 +24,11 @@ class Bet < ApplicationRecord
   end
 
   def refund
-    self.user.update(coins: user.coins+1)
+    user.update(coins: user.coins + 1)
+  end
+
+  def deduct_user_coin
+    user.update(coins: user.coins - 1)
   end
 
   def generate_serial_number
