@@ -8,8 +8,9 @@
     .marquee {
         padding-left: 100%;
         display: inline-block;
-        animation: marquee 9s linear infinite;
+        animation: marquee 10s linear infinite;
         animation-play-state: running;
+        font-size: 20px;
     }
 
     .marquee.paused, .marquee-container:hover .marquee {
@@ -24,16 +25,20 @@
             transform: translateX(-100%);
         }
     }
+    .carousel-item img {
+        object-fit: cover;
+        object-position: 50% 50%;
+    }
 </style>
 <div class="container" style="margin-top:-40px">
   <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
-      <% @banners.count.times do |index| %>
+      <% banners.count.times do |index| %>
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%= index %>" class="<%= 'active' if index == 0 %>"></button>
       <% end %>
     </div>
-    <div class="carousel-inner" style="max-height: 50vh; background-color: black;">
-      <% @banners.each_with_index do |banner, index| %>
+    <div class="carousel-inner" style="max-height: 55vh; height:30vw; min-height:30vh; background-color: black;">
+      <% banners.each_with_index do |banner, index| %>
         <div class="carousel-item <%= 'active' if index == 0 %>">
           <%= image_tag banner.preview.url, alt: 'avatar', class: "d-flex w-100" if banner.preview? %>
         </div>
@@ -58,9 +63,11 @@
         <div class="news">
           <div class="slider">
             <div class="marquee-container">
-              <% NewsTicker.active.each do |news_ticker| %>
-                <div class="marquee"><%= news_ticker.content %></div>
+              <div class="marquee paused">
+              <% news_tickers.each do |news_ticker| %>
+                  <span><%= news_ticker.content %></span>
               <% end %>
+              </div>
             </div>
           </div>
         </div>
@@ -70,22 +77,19 @@
 </section>
 
 <script>
-    var content = $( ".marquee" ).map(function() {
-        return this.innerHTML;
-    });
-    $( ".marquee" ).remove();
-    $(".marquee-container").append(" <div class='marquee paused' ></div>");
+    $( document ).ready(function() {
+        let key = 0;
+        const marquee = $('.marquee');
+        $('.marquee span').hide()
+        $(".marquee").children().eq(key).show()
 
-    let key = 0;
-    const marquee = $('.marquee');
-    marquee.on('animationstart', () => {
-        key = 0;
-        marquee.text(content[key]);
-    });
-    marquee.on('animationiteration', () => {
-        key++;
-        if(typeof content[key] === 'undefined') key = 0;
-        marquee.text(content[key]);
-    });
-    marquee.removeClass('paused');
+        marquee.on('animationiteration', () => {
+            key++;
+            if (($(".marquee").children().length) == key) key = 0;
+            $('.marquee span').hide()
+            $(".marquee").children().eq(key).show();
+        });
+
+        marquee.removeClass('paused');
+    })
 </script>
