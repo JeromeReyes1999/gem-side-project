@@ -52,7 +52,7 @@ Rails.application.routes.draw do
       resources :invite_list, as: :invites, only: :index
 
       resources :items, except: :show do
-          put 'transition/:event', as: :transition, to: 'items#transition', constraints: lambda {|request| Item.aasm.events.map(&:name).include? (request.parameters[:event]) }
+          put 'transition/:event', as: :transition, to: 'items#transition', constraints: (lambda {|request| Item.aasm.events.map(&:name).include? (request.parameters[:event]).to_sym })
           put 'draw', to: 'items#draw'
       end
 
