@@ -31,10 +31,11 @@ class Users::LotteryController < ApplicationController
       rescue ActiveRecord::RecordInvalid => exception
         flash[:alert] = exception
       end
+      redirect_to users_lottery_index_path
     else
       flash[:alert] = 'Not enough coins'
+      redirect_to users_offers_path
     end
-    redirect_to users_lottery_index_path
   end
 
   private
