@@ -1,0 +1,24 @@
+<style>
+    p {
+        font-size: 12px;
+        margin-bottom: 4px
+    }
+</style>
+
+<div class="field">
+  <%= f.label :level %>
+  <%= f.text_field :level, class: 'form-control' %>
+  <%= content_tag :p, member_level.errors.full_messages_for(:level).join(', '), class: 'text-danger m-1' if member_level.errors.has_key?(:level) %>
+</div>
+
+<div class="field">
+  <%= f.label :required_members %>
+  <%= f.number_field :required_members, class: 'form-control' %>
+  <%= content_tag :p, member_level.errors.full_messages_for(:required_members).join(', '), class: 'text-danger m-1' if member_level.errors.has_key?(:required_members) %>
+</div>
+
+<div class="field">
+  <%= f.label :coins %>
+  <%= f.number_field :coins, class: 'form-control' %>
+  <%= content_tag :p, member_level.errors.full_messages_for(:coins).join(', '), class: 'text-danger m-1' if member_level.errors.has_key?(:coins) %>
+</div>

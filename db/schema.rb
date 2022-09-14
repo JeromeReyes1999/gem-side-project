@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_12_081055) do
+ActiveRecord::Schema.define(version: 2022_09_14_103450) do
 
   create_table "addresses", charset: "utf8mb4", force: :cascade do |t|
     t.integer "genre"
@@ -99,6 +99,14 @@ ActiveRecord::Schema.define(version: 2022_09_12_081055) do
     t.index ["category_id"], name: "index_items_on_category_id"
   end
 
+  create_table "member_levels", charset: "utf8mb4", force: :cascade do |t|
+    t.string "level"
+    t.integer "required_members"
+    t.integer "coins"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "news_tickers", charset: "utf8mb4", force: :cascade do |t|
     t.string "content"
     t.integer "status"
@@ -158,9 +166,9 @@ ActiveRecord::Schema.define(version: 2022_09_12_081055) do
     t.string "username", default: "", null: false
     t.string "role", default: "client"
     t.string "phone"
-    t.integer "coins"
-    t.decimal "total_deposit", precision: 10
-    t.integer "children_members"
+    t.integer "coins", default: 0
+    t.decimal "total_deposit", precision: 10, default: "0"
+    t.integer "children_members", default: 0
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -168,7 +176,9 @@ ActiveRecord::Schema.define(version: 2022_09_12_081055) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "image"
     t.bigint "parent_id"
+    t.bigint "member_level_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["member_level_id"], name: "index_users_on_member_level_id"
     t.index ["parent_id"], name: "index_users_on_parent_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

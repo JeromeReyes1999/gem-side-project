@@ -1,6 +1,6 @@
 class Order < ApplicationRecord
-  enum genre: [:deposit, :increase, :deduct, :bonus, :share]
-  validates :remarks, presence: true, if: :genre_admin_operable?
+  enum genre: [:deposit, :increase, :deduct, :bonus, :share, :member_level]
+  validates :remarks, presence: true, if: :genre_has_remarks?
   belongs_to :user
   belongs_to :offer, optional: true
 
@@ -70,6 +70,10 @@ class Order < ApplicationRecord
   end
 
   def genre_admin_operable?
+    [increase?, deduct?, bonus?, member_level?].any?
+  end
+
+  def genre_has_remarks?
     [increase?, deduct?, bonus?].any?
   end
 

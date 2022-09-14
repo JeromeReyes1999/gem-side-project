@@ -59,7 +59,11 @@ class Admin::OrdersController < AdminController
   private
 
   def order_params
-    params.require(:order).permit(:remarks, :coin)
+    if params[:genre] == 'member_level'
+      params.require(:order).permit(:coin)
+    else
+      params.require(:order).permit(:remarks, :coin)
+    end
   end
 
   def set_user

@@ -1,41 +1,49 @@
+<div class="m-auto w-25" style="min-width:300px">
+  <div class="card w-100">
+    <div class="card-body">
+      <%== @svg %>
+    </div>
+  </div>
+</div>
 
-
-
-
-  <div class="m-auto w-25" style="min-width:300px">
-      <div class="card w-100">
-        <div class="card-body">
-             <%== @svg %>
-        </div>
+<div class="container mt-4" style="min-width:300px; width:35%">
+  <% if @member_level.present? %>
+    <div class="card w-100">
+      <div class="card-body text-center">
+        <p>You currently have <%= @current_members %> <%= 'friend'.pluralize(@current_members) %> invited</p>
+        <p>Share to <%= @members_before_level_up %> more <%= 'friend'.pluralize(@members_before_level_up) %> </p>
+        <p>to get <%= @member_level.coins %> <%= 'coin'.pluralize(@member_level.coins) %></p>
       </div>
     </div>
-      <div class="card m-auto mt-5"  style="min-width:300px; width:35%">
-        <div class="card-body w-100">
-            <div class="input-group mb-3">
-                <input id="url" type="text" value=<%=@url %> class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2" readonly=true>
-                <button id="copy_btn" onclick="copy()" class="btn btn-primary" type="button">Copy</button>
-              </div>
-          </div>
-        </div>
+  <% end %>
+  <div class="card m-auto mt-4">
+    <div class="card-body w-100">
+      <div class="input-group">
+        <input id="url" type="text" value=<%= @url %> class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2" readonly=true>
+        <button id="copy_btn" onclick="copy()" class="btn btn-primary" type="button">Copy</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
-  function copy() {
-      const textArea = $("#url");
-      textArea.focus();
-      textArea.select();
-      try {
-        document.execCommand('copy');
-        textArea.blur();
-        window.getSelection().removeAllRanges();
-        var btn = $("#copy_btn");
-        btn.html('Copied');
-        btn.addClass('btn-secondary');
-        btn.removeClass('btn-warning');
-        btn.blur()
-      } catch (err) {
-        console.error('Unable to copy to clipboard', err);
-      }
+    function copy() {
+        const textArea = $("#url");
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            textArea.blur();
+            window.getSelection().removeAllRanges();
+            var btn = $("#copy_btn");
+            btn.html('Copied');
+            btn.addClass('btn-secondary');
+            btn.removeClass('btn-warning');
+            btn.blur()
+        } catch (err) {
+            console.error('Unable to copy to clipboard', err);
+        }
 
-  }
+    }
 
 </script>

@@ -32,7 +32,7 @@ Rails.application.routes.draw do
     namespace :admin, path: '' do
       devise_for :users, controllers: { sessions: 'admin/sessions'}
 
-      resources :users, constraints: { genre: /(increase|deduct|bonus)/ }, only: :index do
+      resources :users, constraints: { genre: /(increase|deduct|bonus|member_level)/ }, only: :index do
           get 'order/:genre/new', as: :new_order, to: 'orders#new'
           post 'order/:genre', as: :create_order, to: 'orders#create'
       end
@@ -48,6 +48,7 @@ Rails.application.routes.draw do
 
       resources :news_tickers, except: :show
       resources :banners, except: :show
+      resources :member_levels, except: :show
 
       resources :invite_list, as: :invites, only: :index
 

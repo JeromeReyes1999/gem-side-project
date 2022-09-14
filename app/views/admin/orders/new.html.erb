@@ -17,6 +17,9 @@
           <li class="nav-item">
             <%= link_to "Bonus", admin_user_new_order_path(@user, :bonus), class: "nav-link #{'active' if params[:genre] == 'bonus'}" %>
           </li>
+          <li class="nav-item">
+            <%= link_to "Member Level", admin_user_new_order_path(@user, :member_level), class: "nav-link #{'active' if params[:genre] == 'member_level'}" %>
+          </li>
         </ul>
       </div>
       <div class="card-body">
@@ -29,6 +32,7 @@
             </div>
           </div>
           <%= content_tag :p, @order.errors.full_messages_for(:coin).join(', '), class: 'text-danger me-auto' if @order.errors.has_key?(:coin) %>
+          <% if params[:genre] != 'member_level' %>
           <div class="field">
             <div class="input-group mt-3">
               <span class="input-group-text"><div class="mx-auto">Remarks</div></span>
@@ -36,6 +40,7 @@
             </div>
             <%= content_tag :p, @order.errors.full_messages_for(:remarks).join(', '), class: 'text-danger' if @order.errors.has_key?(:remarks) %>
           </div>
+          <% end %>
           <%= f.submit class: 'btn btn-primary mt-3' %>
         <% end %>
       </div>

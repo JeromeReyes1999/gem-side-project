@@ -2,7 +2,11 @@ class Users::InvitePeopleController < ApplicationController
   before_action :set_url
   before_action :generate_qr_code
 
-  def invite_page; end
+  def invite_page
+    @current_members = current_user.children_members
+    @member_level = MemberLevel.order(:required_members).where('required_members > ?', current_user.children_members).first
+    @members_before_level_up = @member_level.required_members - @current_members if @member_level.present?
+  end
 
   private
 
