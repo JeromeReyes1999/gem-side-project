@@ -1,8 +1,10 @@
 class Category < ApplicationRecord
-  validates_presence_of :name
+  validates_presence_of :name, :sort
   has_many :items
+  validates :sort, numericality: { greater_than: 0 }
+  validates :sort, uniqueness: true
 
-  default_scope { where(deleted_at: nil) }
+  default_scope { order(:sort).where(deleted_at: nil) }
 
   def destroy
     if self.items.present?

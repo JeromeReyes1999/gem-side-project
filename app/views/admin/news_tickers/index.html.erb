@@ -3,6 +3,7 @@
   <div class="card-body ">
     <table class="table table-striped table-hover">
       <thead>
+      <th>Sort</th>
       <th>Content</th>
       <th>Status</th>
       <th>Admin</th>
@@ -11,6 +12,7 @@
       <tbody>
       <% @news_tickers.each do |news_ticker| %>
         <tr>
+          <td><%= news_ticker.sort%></td>
           <td><%= news_ticker.content%></td>
           <td><%= news_ticker.status%></th>
           <td><%= news_ticker.admin.email%></th>

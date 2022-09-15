@@ -12,6 +12,11 @@
           <%= f.text_field :name, class: 'form-control' %>
           <%= content_tag :p, @category.errors.full_messages_for(:name).join(', '), class: 'text-danger' if @category.errors.has_key?(:name) %>
         </div>
+        <div class="field">
+          <%= f.label :sort %>
+          <%= f.number_field :sort, class: 'form-control' %>
+          <%= content_tag :p, @category.errors.full_messages_for(:sort).join(', '), class: 'text-danger' if @category.errors.has_key?(:sort) %>
+        </div>
         <%= f.submit class:'btn btn-primary mt-3'  %>
       <% end %>
      </div>

@@ -3,12 +3,14 @@
   <div class="card-body ">
     <table class="table table-striped table-hover">
       <thead>
+      <th>Sort</th>
       <th>Name</th>
       <th>Action</th>
       </thead>
       <tbody>
       <% @categories.each do |category| %>
         <tr>
+          <td><%= category.sort%></td>
           <td><%= category.name%></td>
           <td>
             <%= link_to 'edit', edit_admin_category_path(category), class: 'btn btn-warning' %>

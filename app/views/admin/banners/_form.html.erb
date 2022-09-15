@@ -33,6 +33,12 @@
   <%= content_tag :p, banner.errors.full_messages_for(:offline_at).join(', '), class: 'text-danger m-1' if banner.errors.has_key?(:offline_at) %>
 </div>
 
+<div class="field">
+  <%= f.label :sort %>
+  <%= f.number_field  :sort , class: 'form-control' %>
+  <%= content_tag :p, banner.errors.full_messages_for(:sort).join(', '), class: 'text-danger m-1' if banner.errors.has_key?(:sort) %>
+</div>
+
 <script>
     function previewFile(input) {
         var file = $("input[type=file]").get(0).files[0];

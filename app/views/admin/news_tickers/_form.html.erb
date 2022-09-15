@@ -16,3 +16,9 @@
   <%= f.select(:status, Offer.statuses.keys.map { |key| [key.humanize, key] }, { :prompt => 'status' }, class: 'form-control  form-control') %>
   <%= content_tag :p, news_ticker.errors.full_messages_for(:status).join(', '), class: 'text-danger m-1' if news_ticker.errors.has_key?(:status) %>
 </div>
+
+<div class="field">
+  <%= f.label :sort %>
+  <%= f.number_field :sort, class: 'form-control' %>
+  <%= content_tag :p, news_ticker.errors.full_messages_for(:sort).join(', '), class: 'text-danger m-1' if news_ticker.errors.has_key?(:sort) %>
+</div>
